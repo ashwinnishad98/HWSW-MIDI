@@ -11,9 +11,10 @@ from PyQt5.QtWidgets import (
     QGridLayout,
     QSpacerItem,
     QSizePolicy,
+    QHBoxLayout,
 )
 from PyQt5.QtCore import QThread, pyqtSignal, Qt
-from PyQt5.QtGui import QFontDatabase
+from PyQt5.QtGui import QFontDatabase, QPixmap
 
 
 class App(QMainWindow):
@@ -43,44 +44,47 @@ class App(QMainWindow):
     def initUI(self):
         """
         ------------------------------------------------
-        Main Menu Page
+        Main Menu Page with musical notes on the sides
         ------------------------------------------------
         """
+        # Create a main horizontal layout
+        main_layout = QHBoxLayout()
+
+        # Create and add the left musical note label
+        left_note_label = QLabel()
+        left_note_pixmap = QPixmap("./note1.png")
+        left_note_label.setPixmap(left_note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
+        main_layout.addWidget(left_note_label)
+
+        self.setGeometry(80, 10, 900, 600)
+
+        # Create the central vertical layout for the buttons
+        menu_layout = QVBoxLayout()
+        menu_layout.addStretch(1)
+
+        # Add the title label to the central layout
         self.title_label = QLabel("rAIthym")
         self.title_label.setStyleSheet(
             f"""
-        color: white;
-        font-size: 82px;
-        font-family: '{self.font_family}';
-        qproperty-alignment: AlignCenter;
-        padding-bottom: 100px;
-        """
+            color: black;
+            font-size: 82px;
+            font-family: '{self.font_family}';
+            qproperty-alignment: AlignCenter;
+            padding-bottom: 100px;
+            """
         )
+        menu_layout.addWidget(self.title_label)
 
-        # Adjust the window size
-        self.setGeometry(80, 10, 900, 600)  # Set a larger window size
-
-        self.menu_page = QWidget()
-        menu_layout = QVBoxLayout()
-
-        menu_layout.addStretch(1)  # Add stretch to push the title down a bit
-
-        # Add spacer after the title
-        # title_spacer = QSpacerItem(2, 2, QSizePolicy.Minimum, QSizePolicy.Fixed)
-        # menu_layout.addSpacerItem(title_spacer)
-        menu_layout.addWidget(self.title_label)  # Add the title label to your layout
-
-        # Create buttons and add them to the layout with spacers
+        # Add the buttons to the central layout
         button_texts = ["View Tutorials", "Freestyle", "Song Library"]
-        buttons = []  # Keep track of the buttons to connect signals later
+        buttons = []
 
         for i, text in enumerate(button_texts):
             button = QPushButton(text)
             button.setFixedHeight(45)  # Fixed height for all buttons
             menu_layout.addWidget(button)
+            buttons.append(button)
             menu_layout.setAlignment(button, Qt.AlignCenter)  # Center align the button
-            buttons.append(button)  # Add the button to the list
-
             if (
                 i < len(button_texts) - 1
             ):  # Add spacers between buttons, but not after the last one
@@ -89,21 +93,26 @@ class App(QMainWindow):
                 )
                 menu_layout.addSpacerItem(inter_button_spacer)
 
+        # Add the central layout to the main layout
         menu_layout.addStretch(1)
+        main_layout.addLayout(menu_layout)
 
-        self.menu_page.setLayout(menu_layout)
-        self.stacked_widget.addWidget(self.menu_page)
+        # Create and add the right musical note label
+        right_note_label = QLabel()
+        right_note_pixmap = QPixmap("./note1.png")
+        right_note_label.setPixmap(right_note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
+        main_layout.addWidget(right_note_label)
+
+        # Create a central widget to hold the main layout
+        central_widget = QWidget()
+        central_widget.setLayout(main_layout)
+        self.stacked_widget.addWidget(central_widget)
+        # self.setCentralWidget(central_widget)
 
         # Connect signals to slots for buttons
-        buttons[0].clicked.connect(
-            lambda: self.stacked_widget.setCurrentIndex(1)
-        )  # View Tutorials
-        buttons[1].clicked.connect(
-            lambda: self.stacked_widget.setCurrentIndex(2)
-        )  # Freestyle
-        buttons[2].clicked.connect(
-            lambda: self.stacked_widget.setCurrentIndex(3)
-        )  # Song Library
+        buttons[0].clicked.connect(self.show_tutorials)
+        buttons[1].clicked.connect(self.show_freestyle)
+        buttons[2].clicked.connect(self.show_song_library)
 
         """
         ------------------------------------------------
@@ -185,6 +194,15 @@ class App(QMainWindow):
         self.song_library_page.setLayout(song_lib_layout)
         self.stacked_widget.addWidget(self.song_library_page)
 
+    def show_tutorials(self):
+        self.stacked_widget.setCurrentIndex(1)
+
+    def show_freestyle(self):
+        self.stacked_widget.setCurrentIndex(2)
+
+    def show_song_library(self):
+        self.stacked_widget.setCurrentIndex(3)
+
 
 def main():
     app = QApplication(sys.argv)
@@ -201,7 +219,7 @@ def main():
     app.setStyleSheet(
         f"""
         QMainWindow {{
-            background-color: black;
+            background-color: white;
         }}
         QPushButton {{
             color: #00ff00;
