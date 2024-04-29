@@ -1,20 +1,12 @@
+import pathlib
 import sys
 import time
-from PyQt5.QtWidgets import (
-    QApplication,
-    QMainWindow,
-    QPushButton,
-    QWidget,
-    QVBoxLayout,
-    QLabel,
-    QStackedWidget,
-    QGridLayout,
-    QSpacerItem,
-    QSizePolicy,
-    QHBoxLayout,
-)
-from PyQt5.QtCore import QThread, pyqtSignal, Qt
+
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
 from PyQt5.QtGui import QFontDatabase, QPixmap
+from PyQt5.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
+                             QMainWindow, QPushButton, QSizePolicy,
+                             QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 
 
 class App(QMainWindow):
@@ -23,9 +15,7 @@ class App(QMainWindow):
 
         super().__init__()
         # Load the font here, inside the __init__
-        font_path = (
-            "/Users/ashwinnishad/Downloads/UW/Spring24/HWSW/HWSW-MIDI/ui/retro.ttf"
-        )
+        font_path = str(pathlib.Path().resolve()) + "/retro.ttf"
         font_id = QFontDatabase.addApplicationFont(font_path)
         if font_id != -1:
             font_families = QFontDatabase.applicationFontFamilies(font_id)
@@ -205,9 +195,11 @@ class App(QMainWindow):
 
 
 def main():
+    font_family = "Arial"
     app = QApplication(sys.argv)
     # Load the custom font within the main function
-    font_path = "/Users/ashwinnishad/Downloads/UW/Spring24/HWSW/HWSW-MIDI/ui/retro.ttf"
+    font_path = str(pathlib.Path().resolve()) + "/retro.ttf"
+    print(font_path)
     font_id = QFontDatabase.addApplicationFont(font_path)
     if font_id != -1:
         font_families = QFontDatabase.applicationFontFamilies(font_id)
@@ -215,7 +207,6 @@ def main():
             font_family = font_families[0]
         else:
             print(f"Failed to load font from {font_path}")
-            font_family = "Arial"
     app.setStyleSheet(
         f"""
         QMainWindow {{
