@@ -2,11 +2,21 @@ import pathlib
 import sys
 import time
 
-from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtGui import QFontDatabase, QPixmap
-from PyQt5.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
-                             QMainWindow, QPushButton, QSizePolicy,
-                             QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
+from PyQt5.QtCore import Qt, QThread, pyqtSignal, QSize
+from PyQt5.QtGui import QFontDatabase, QPixmap, QIcon
+from PyQt5.QtWidgets import (
+    QApplication,
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 
 class App(QMainWindow):
@@ -71,7 +81,7 @@ class App(QMainWindow):
 
         for i, text in enumerate(button_texts):
             button = QPushButton(text)
-            button.setFixedHeight(45)  # Fixed height for all buttons
+            button.setFixedHeight(45)  # Fixed height for all buttons2
             menu_layout.addWidget(button)
             buttons.append(button)
             menu_layout.setAlignment(button, Qt.AlignCenter)  # Center align the button
@@ -140,12 +150,32 @@ class App(QMainWindow):
         freestyle_layout = QGridLayout()
 
         # Creating 4 tiles with different option names
-        option_names = ["Piano", "Guitar", "Kick Drum", "Hi Hat"]
+        option_names = ["Piano", "Guitar", "Drums", "Trumpet"]
+
+        icons = {
+            "Piano": "./piano.png",
+            "Guitar": "./guitar.png",
+            "Drums": "./drums.png",
+            "Trumpet": "./trumpet.png",
+        }
+
         tiles = [QPushButton(name) for name in option_names]
-        positions = [(i // 2, i % 2) for i in range(4)]  # 2 rows, 2 columns
-        for tile, position in zip(tiles, positions):
-            tile.setFixedSize(200, 100)  # Making each tile a square
-            freestyle_layout.addWidget(tile, *position)
+
+        # Create buttons with icons
+        for i, name in enumerate(option_names):
+            button = QPushButton(name)
+            button.setFixedSize(230, 130)  # Making each button a square
+
+            # Set icon if available
+            if name in icons:
+                icon = QPixmap(icons[name])
+                button.setIcon(QIcon(icon))
+                button.setIconSize(QSize(130, 130))  # Set icon size; adjust as needed
+
+            # Set button styling
+            button.setStyleSheet("text-align: bottom; font: bold; font-size: 14px;")
+            position = (i // 2, i % 2)
+            freestyle_layout.addWidget(button, *position)
 
         # Back button
         back_button_freestyle = QPushButton("Back")
