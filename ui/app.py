@@ -49,12 +49,8 @@ class App(QMainWindow):
         """
         # Create a main horizontal layout
         main_layout = QHBoxLayout()
-
-        # Create and add the left musical note label
-        left_note_label = QLabel()
-        left_note_pixmap = QPixmap("./note1.png")
-        left_note_label.setPixmap(left_note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
-        main_layout.addWidget(left_note_label)
+        
+        self.add_musical_notes(main_layout)
 
         self.setGeometry(80, 10, 900, 600)
 
@@ -66,7 +62,7 @@ class App(QMainWindow):
         self.title_label = QLabel("rAIthym")
         self.title_label.setStyleSheet(
             f"""
-            color: black;
+            color: #7331D6;
             font-size: 82px;
             font-family: '{self.font_family}';
             qproperty-alignment: AlignCenter;
@@ -97,11 +93,7 @@ class App(QMainWindow):
         menu_layout.addStretch(1)
         main_layout.addLayout(menu_layout)
 
-        # Create and add the right musical note label
-        right_note_label = QLabel()
-        right_note_pixmap = QPixmap("./note1.png")
-        right_note_label.setPixmap(right_note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
-        main_layout.addWidget(right_note_label)
+        self.add_musical_notes(main_layout)
 
         # Create a central widget to hold the main layout
         central_widget = QWidget()
@@ -114,40 +106,70 @@ class App(QMainWindow):
         buttons[1].clicked.connect(self.show_freestyle)
         buttons[2].clicked.connect(self.show_song_library)
 
+        self.init_tutorials_page()
+        self.init_freestyle_page()
+        self.init_song_library_page()
+
+
+    def init_tutorials_page(self):
         """
         ------------------------------------------------
         Tutorial Page
         ------------------------------------------------
         """
         self.tutorial_page = QWidget()
-        tutorial_layout = QGridLayout(self.tutorial_page)
+        tutorial_layout = QHBoxLayout(self.tutorial_page)
 
+        self.add_musical_notes(tutorial_layout)
+        
+        grid_layout = QGridLayout()
         # Creating 4 tiles
-        tiles = [QPushButton(f"Lesson {i+1}") for i in range(4)]
+        lessons_list = ["Rhythm 1", "Musical Simon Says", "Rhythm 2", "Song Follow Along"]
         positions = [(i, j) for i in range(2) for j in range(2)]
-        for tile, position in zip(tiles, positions):
-            tile.setFixedSize(200, 100)  # Making each tile a square
-            tutorial_layout.addWidget(tile, *position)
+        
+        for lesson, position in zip(lessons_list, positions):
+            button = QPushButton()
+            button.setFixedSize(200, 100)
+            
+            # Create a label to wrap the text inside the button
+            label = QLabel(lesson)
+            label.setWordWrap(True)
+            label.setAlignment(Qt.AlignCenter)
+            label.setStyleSheet("font-size: 18px;")
+            
+            # Create a layout for the button and add the label to it
+            layout = QVBoxLayout(button)
+            layout.addWidget(label)
+            button.setLayout(layout)
+            
+            grid_layout.addWidget(button, *position)
+
 
         # Back button
         back_button_tutorial = QPushButton("Back")
         back_button_tutorial.clicked.connect(
             lambda: self.stacked_widget.setCurrentIndex(0)
         )
-        tutorial_layout.addWidget(
+        grid_layout.addWidget(
             back_button_tutorial, 2, 0, 1, 2
         )  # Spanning the back button across the grid
-
+        
+        tutorial_layout.addLayout(grid_layout)
+        self.add_musical_notes(tutorial_layout)
         self.tutorial_page.setLayout(tutorial_layout)
         self.stacked_widget.addWidget(self.tutorial_page)
-
+    
+    def init_freestyle_page(self):
         """
         ------------------------------------------------
         Freestyle Page
         ------------------------------------------------
         """
         self.freestyle_page = QWidget()
-        freestyle_layout = QGridLayout()
+        freestyle_layout = QHBoxLayout()
+        
+        self.add_musical_notes(freestyle_layout)
+        grid_layout = QGridLayout()
 
         # Creating 4 tiles with different option names
         option_names = ["Piano", "Guitar", "Drums", "Trumpet"]
@@ -175,45 +197,54 @@ class App(QMainWindow):
             # Set button styling
             button.setStyleSheet("text-align: bottom; font: bold; font-size: 14px;")
             position = (i // 2, i % 2)
-            freestyle_layout.addWidget(button, *position)
+            grid_layout.addWidget(button, *position)
 
         # Back button
         back_button_freestyle = QPushButton("Back")
         back_button_freestyle.clicked.connect(
             lambda: self.stacked_widget.setCurrentIndex(0)
         )
-        freestyle_layout.addWidget(
+        grid_layout.addWidget(
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
 
+        freestyle_layout.addLayout(grid_layout)
+        self.add_musical_notes(freestyle_layout)
         self.freestyle_page.setLayout(freestyle_layout)
         self.stacked_widget.addWidget(self.freestyle_page)
-
+    
+    def init_song_library_page(self):
         """
         ------------------------------------------------
         Song Library Page
         ------------------------------------------------
         """
         self.song_library_page = QWidget()
-        song_lib_layout = QGridLayout()
+        song_lib_layout = QHBoxLayout()
+        self.add_musical_notes(song_lib_layout)
+        
+        grid_layout = QGridLayout()
 
         # Creating 6 tiles
         tiles = [QPushButton(f"Song {i+1}") for i in range(6)]
         positions = [(i // 3, i % 3) for i in range(6)]  # 2 rows, 3 columns
         for tile, position in zip(tiles, positions):
             tile.setFixedSize(100, 100)  # Making each tile a square
-            song_lib_layout.addWidget(tile, *position)
+            grid_layout.addWidget(tile, *position)
 
         # Back button
         back_button_song = QPushButton("Back")
         back_button_song.clicked.connect(lambda: self.stacked_widget.setCurrentIndex(0))
-        song_lib_layout.addWidget(
+        grid_layout.addWidget(
             back_button_song, 2, 0, 1, 3
         )  # Spanning the back button across all columns
 
+        song_lib_layout.addLayout(grid_layout)
         self.song_library_page.setLayout(song_lib_layout)
+        self.add_musical_notes(song_lib_layout)
         self.stacked_widget.addWidget(self.song_library_page)
-
+        
+    
     def show_tutorials(self):
         self.stacked_widget.setCurrentIndex(1)
 
@@ -223,6 +254,12 @@ class App(QMainWindow):
     def show_song_library(self):
         self.stacked_widget.setCurrentIndex(3)
 
+
+    def add_musical_notes(self, layout):
+            note_label = QLabel()
+            note_pixmap = QPixmap("./note1.png")
+            note_label.setPixmap(note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
+            layout.addWidget(note_label)
 
 def main():
     font_family = "Arial"
@@ -252,10 +289,12 @@ def main():
             background-color: transparent;
         }}
         QPushButton:hover {{
-            background-color: #005500;
+            background-color: #7331D6;
+            color: white;
+            border: 2px solid #7331D6;
         }}
         QLabel {{
-            color: white;
+            color: #00ff00;
             font-size: 48px;
             font-family: {font_family};
             qproperty-alignment: AlignCenter;
