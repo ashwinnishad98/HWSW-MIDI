@@ -62,6 +62,16 @@ def read_channel(channel):
 
 
 def update_average(new_value):
+    """
+    Updates the average value based on a new reading.
+
+    Args:
+        new_value (float): The new reading to be added to the average calculation.
+
+    Returns:
+        float: The updated average value.
+
+    """
     global total, readIndex, readings, average
     total -= readings[readIndex]  # Subtract the oldest reading from the total
     readings[readIndex] = new_value  # Add the new reading to the array
@@ -74,10 +84,30 @@ def update_average(new_value):
 
 
 def map_value(x, in_min, in_max, out_min, out_max):
+    """
+    Maps a value from one range to another range.
+
+    Returns:
+    float: The mapped value.
+
+    """
     return (x - in_min) * (out_max - out_min) / (in_max - in_min) + out_min
 
 
 def play_sequence():
+    """
+    Plays a sequence of notes with corresponding LED lights.
+
+    This function iterates over the `note_times` list and plays a drum sound
+    while lighting up an LED for each note. The LED remains on for a duration
+    of 0.1 seconds.
+
+    Args:
+        None
+
+    Returns:
+        None
+    """
     start_time = time.time()
     for note_time in note_times:
         while time.time() < start_time + note_time:
