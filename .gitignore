@@ -1,2 +1,4 @@
 venv
 .DS_STORE
+ui/__pycache__
+ui/pages/__pycache__

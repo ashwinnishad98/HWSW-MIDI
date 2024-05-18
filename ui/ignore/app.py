@@ -2,21 +2,11 @@ import pathlib
 import sys
 import time
 
-from PyQt5.QtCore import Qt, QThread, pyqtSignal, QSize
-from PyQt5.QtGui import QFontDatabase, QPixmap, QIcon
-from PyQt5.QtWidgets import (
-    QApplication,
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QMainWindow,
-    QPushButton,
-    QSizePolicy,
-    QSpacerItem,
-    QStackedWidget,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtCore import QSize, Qt, QThread, pyqtSignal
+from PyQt5.QtGui import QFontDatabase, QIcon, QPixmap
+from PyQt5.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QLabel,
+                             QMainWindow, QPushButton, QSizePolicy,
+                             QSpacerItem, QStackedWidget, QVBoxLayout, QWidget)
 
 
 class App(QMainWindow):
@@ -62,7 +52,7 @@ class App(QMainWindow):
         self.title_label = QLabel("rAIthym")
         self.title_label.setStyleSheet(
             f"""
-            color: #7331D6;
+            color: #fff37b;
             font-size: 82px;
             font-family: '{self.font_family}';
             qproperty-alignment: AlignCenter;
@@ -77,7 +67,7 @@ class App(QMainWindow):
 
         for i, text in enumerate(button_texts):
             button = QPushButton(text)
-            button.setFixedHeight(45)  # Fixed height for all buttons2
+            button.setFixedHeight(50)  # Fixed height for all buttons2
             menu_layout.addWidget(button)
             buttons.append(button)
             menu_layout.setAlignment(button, Qt.AlignCenter)  # Center align the button
@@ -135,7 +125,7 @@ class App(QMainWindow):
             label = QLabel(lesson)
             label.setWordWrap(True)
             label.setAlignment(Qt.AlignCenter)
-            label.setStyleSheet("font-size: 18px;")
+            label.setStyleSheet("font-size: 20px;")
             
             # Create a layout for the button and add the label to it
             layout = QVBoxLayout(button)
@@ -175,10 +165,10 @@ class App(QMainWindow):
         option_names = ["Piano", "Guitar", "Kick", "Hi-Hat"]
 
         icons = {
-            "Piano": "./piano.png",
-            "Guitar": "./guitar.png",
-            "Kick": "./kick.png",
-            "Hi-Hat": "./hi-hat.png",
+            "Piano": "assets/piano.png",
+            "Guitar": "assets/guitar.png",
+            "Kick": "assets/kick.png",
+            "Hi-Hat": "assets/hi-hat.png",
         }
 
         tiles = [QPushButton(name) for name in option_names]
@@ -257,7 +247,7 @@ class App(QMainWindow):
 
     def add_musical_notes(self, layout):
             note_label = QLabel()
-            note_pixmap = QPixmap("./note1.png")
+            note_pixmap = QPixmap("assets/note1.png")
             note_label.setPixmap(note_pixmap.scaled(95, 95, Qt.KeepAspectRatio))
             layout.addWidget(note_label)
 
@@ -266,7 +256,6 @@ def main():
     app = QApplication(sys.argv)
     # Load the custom font within the main function
     font_path = str(pathlib.Path().resolve()) + "/retro.ttf"
-    print(font_path)
     font_id = QFontDatabase.addApplicationFont(font_path)
     if font_id != -1:
         font_families = QFontDatabase.applicationFontFamilies(font_id)
@@ -274,33 +263,15 @@ def main():
             font_family = font_families[0]
         else:
             print(f"Failed to load font from {font_path}")
-    app.setStyleSheet(
-        f"""
-        QMainWindow {{
-            background-color: white;
-        }}
-        QPushButton {{
-            color: #00ff00;
-            font-family: {font_family};
-            font-size: 16px;
-            border: 2px solid #00ff00;
-            border-radius: 10px;
-            padding: 10px;
-            background-color: transparent;
-        }}
-        QPushButton:hover {{
-            background-color: #7331D6;
-            color: white;
-            border: 2px solid #7331D6;
-        }}
-        QLabel {{
-            color: #00ff00;
-            font-size: 48px;
-            font-family: {font_family};
-            qproperty-alignment: AlignCenter;
-        }}
-    """
-    )
+    # Load the stylesheet
+    with open("main_style.qss", "r") as f:
+        stylesheet = f.read()
+
+    # Replace the placeholder font family with the actual font family
+    stylesheet = stylesheet.replace("Arial", font_family)
+
+    app.setStyleSheet(stylesheet)
+    
     ex = App()
     ex.show()
     sys.exit(app.exec_())

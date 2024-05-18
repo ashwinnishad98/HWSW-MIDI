@@ -1,0 +1,24 @@
+QMainWindow {
+    background-color: #28375b;
+}
+QPushButton {
+    background-color: #39809c;
+    color: white;
+    font-family: Arial; /* Placeholder, will be replaced dynamically */
+    font-size: 20px;
+    border: 2px solid #39809c;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: transparent;
+}
+QPushButton:hover {
+    background-color: #5fcc86;
+    color: white;
+    border: 2px solid #5fcc86;
+}
+QLabel {
+    color: #39809c;
+    font-size: 48px;
+    font-family: Arial; /* Placeholder, will be replaced dynamically */
+    qproperty-alignment: AlignCenter;
+}
