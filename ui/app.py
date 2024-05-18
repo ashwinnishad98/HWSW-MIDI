@@ -172,13 +172,13 @@ class App(QMainWindow):
         grid_layout = QGridLayout()
 
         # Creating 4 tiles with different option names
-        option_names = ["Piano", "Guitar", "Drums", "Trumpet"]
+        option_names = ["Piano", "Guitar", "Kick", "Hi-Hat"]
 
         icons = {
             "Piano": "./piano.png",
             "Guitar": "./guitar.png",
-            "Drums": "./drums.png",
-            "Trumpet": "./trumpet.png",
+            "Kick": "./kick.png",
+            "Hi-Hat": "./hi-hat.png",
         }
 
         tiles = [QPushButton(name) for name in option_names]
