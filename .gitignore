@@ -2,3 +2,4 @@ venv
 .DS_STORE
 ui/__pycache__
 ui/pages/__pycache__
+ui/utils/__pycache__/utils.cpython-311.pyc

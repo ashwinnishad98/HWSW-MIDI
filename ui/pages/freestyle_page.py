@@ -43,7 +43,7 @@ class FreestylePage(QWidget):
 
             # Set button styling
             button.setStyleSheet(
-                "text-align: bottom; font: bold; font-size: 14px; color: black;"
+                "text-align: bottom; font: bold; font-size: 14px; color: white;"
             )
             position = (i // 2, i % 2)
             grid_layout.addWidget(button, *position)
