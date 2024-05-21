@@ -161,7 +161,9 @@ def lesson_rhythm():
     print("1 second...")
     time.sleep(1)
     play_sequence()
-    print("Now, follow the sequence. Press on the seconds indicated starting in 3 seconds...")
+    print(
+        "Now, follow the sequence. Press on the seconds indicated starting in 3 seconds..."
+    )
     time.sleep(1)
     print("2 seconds...")
     time.sleep(1)

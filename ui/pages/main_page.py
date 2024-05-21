@@ -1,7 +1,15 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QHBoxLayout, QLabel, QMainWindow, QPushButton,
-                             QSizePolicy, QSpacerItem, QStackedWidget,
-                             QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
 from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
@@ -59,7 +67,9 @@ class MainWindow(QMainWindow):
             menu_layout.addWidget(button)
             buttons.append(button)
             menu_layout.setAlignment(button, Qt.AlignCenter)  # Center align the button
-            if i < len(button_texts) - 1:  # Add spacers between buttons, but not after the last one
+            if (
+                i < len(button_texts) - 1
+            ):  # Add spacers between buttons, but not after the last one
                 inter_button_spacer = QSpacerItem(
                     20, 10, QSizePolicy.Minimum, QSizePolicy.Fixed
                 )
@@ -68,7 +78,7 @@ class MainWindow(QMainWindow):
         # Add the central layout to the main layout
         menu_layout.addStretch(1)
         main_layout.addLayout(menu_layout)
-        
+
         add_musical_notes(main_layout)
 
         # Create a central widget to hold the main layout
