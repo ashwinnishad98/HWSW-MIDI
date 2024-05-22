@@ -76,6 +76,14 @@ class TutorialPage(QWidget):
             f"font-size: 48px; color: white; font-family: {self.font_family};"
         )
         self.countdown_layout.addWidget(self.number_label)
+        
+        # Add krib image
+        self.krib_label = QLabel()
+        self.krib_pixmap = QPixmap("./assets/krib.png")
+        self.krib_label.setPixmap(self.krib_pixmap.scaled(100, 100, Qt.KeepAspectRatio))
+        self.krib_label.setAlignment(Qt.AlignCenter)
+        self.countdown_layout.addWidget(self.krib_label)
+        self.krib_label.hide()  # Hide initially
 
         # Bottom spacer
         self.countdown_layout.addItem(
@@ -152,6 +160,7 @@ class TutorialPage(QWidget):
 
     def start_rhythm_1(self):
         self.message_label.clear()
+        self.krib_label.show()  # Show krib image when the tutorial starts
         self.start_countdown("Starting in...", 3, self.start_rhythm_lesson)
 
     def start_countdown(self, text, count, callback):
@@ -172,7 +181,7 @@ class TutorialPage(QWidget):
         else:
             self.timer.stop()
             self.number_label.clear()
-            self.countdown_label.clear()
+            # self.countdown_label.clear()
             self.callback()
 
     def animate_number_change(self, number):
@@ -208,14 +217,16 @@ class TutorialPage(QWidget):
         self.message_label.setText(text)
 
     def display_score(self, score_text):
-        self.countdown_label.clear()
+        # self.countdown_label.clear()
         self.update_message(score_text)
         QTimer.singleShot(5000, self.go_back_to_lessons)  # Navigate back after 5 seconds
 
     def go_back_to_lessons(self):
+        self.krib_label.hide()  # Hide krib image when tutorial ends
         self.message_label.clear()
         self.stacked_layout.setCurrentWidget(self.lessons_widget)
 
     def go_back_to_main(self):
+        self.krib_label.hide()  # Hide krib image when navigating back to the main page
         self.message_label.clear()
         self.parent.setCurrentIndex(0)  # Assuming the main page is at index 0
