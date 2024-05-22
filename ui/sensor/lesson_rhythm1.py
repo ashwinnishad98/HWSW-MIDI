@@ -104,15 +104,15 @@ class RhythmLesson(QThread):
         self.progress.emit("Playing the sequence...")
         play_sequence()
         self.sequence_complete.emit()
-        self.progress.emit(
-            "Now your turn!"
-        )
-        time.sleep(1)
-        self.progress.emit("2 seconds...")
-        time.sleep(1)
-        self.progress.emit("1 second...")
-        time.sleep(1)
-        self.progress.emit("Start!")
+        # self.progress.emit(
+        #     "Now your turn!"
+        # )
+        # time.sleep(1)
+        # self.progress.emit("2 seconds...")
+        # time.sleep(1)
+        # self.progress.emit("1 second...")
+        # time.sleep(1)
+        # self.progress.emit("Start!")
         scores = record_responses()
         score = sum(scores)
         self.progress.emit(f"Your score: {score}/{len(note_times)}")
