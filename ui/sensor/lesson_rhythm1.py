@@ -105,7 +105,7 @@ class RhythmLesson(QThread):
         play_sequence()
         self.sequence_complete.emit()
         self.progress.emit(
-            "Now your turn! Follow the sequence. Press on the seconds indicated starting in 3 seconds..."
+            "Now your turn!"
         )
         time.sleep(1)
         self.progress.emit("2 seconds...")
