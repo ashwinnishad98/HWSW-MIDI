@@ -10,7 +10,7 @@ from PyQt5.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
-    QTextEdit
+    QTextEdit,
 )
 
 from utils.utils import add_musical_notes
@@ -98,7 +98,7 @@ class TutorialPage(QWidget):
         )
 
         self.stacked_layout.addWidget(self.countdown_widget)
-        
+
         # Add output text area
         self.output_text = QTextEdit()
         self.output_text.setReadOnly(True)
@@ -149,7 +149,7 @@ class TutorialPage(QWidget):
 
     def start_rhythm_1(self):
         self.start_countdown("Starting in...", 3, self.start_rhythm_lesson)
-        
+
     def start_countdown(self, text, count, callback):
         self.countdown_label.setText(text)
         self.number_label.setText(str(count))
@@ -159,54 +159,23 @@ class TutorialPage(QWidget):
         self.timer = QTimer()
         self.timer.timeout.connect(self.update_countdown)
         self.timer.start(1000)
-        
+
     def update_countdown(self):
         if self.count > 0:
-            self.count -= 1
             self.number_label.setText(str(self.count))
+            self.animate_number_change(str(self.count))
+            self.count -= 1
         else:
             self.timer.stop()
             self.callback()
 
-    def start_tutorial_countdown(self):
-        # Clear current countdown layout
-        for i in reversed(range(self.countdown_layout.count())):
-            widget = self.countdown_layout.itemAt(i).widget()
-            if widget is not None:
-                widget.deleteLater()
-
-        # Create countdown labels
-        self.countdown_label = QLabel("Starting in...")
-        self.countdown_label.setAlignment(Qt.AlignCenter)
-        self.countdown_label.setStyleSheet(
-            f"font-size: 36px; color: white; font-family: {self.font_family};"
-        )
-        self.countdown_layout.addWidget(self.countdown_label)
-
-        self.number_label = QLabel("3")
-        self.number_label.setAlignment(Qt.AlignCenter)
-        self.number_label.setStyleSheet(
-            f"font-size: 48px; color: white; font-family: {self.font_family};"
-        )
-        self.countdown_layout.addWidget(self.number_label)
-
-        # Switch to the countdown page
-        self.stacked_layout.setCurrentWidget(self.countdown_widget)
-
-        # Initialize timer for countdown
-        self.countdown_value = 3
-        self.timer = QTimer()
-        self.timer.timeout.connect(self.update_countdown)
-        self.timer.start(1000)  # Update every second
-
-    def update_countdown(self):
-        if self.countdown_value > 0:
-            self.animate_number_change(str(self.countdown_value))
-            self.countdown_value -= 1
-        else:
-            self.timer.stop()
-            self.countdown_label.setText("Remember the sounds!")
-            self.number_label.setText("")
+    def animate_number_change(self, number):
+        self.number_label.setText(number)
+        animation = QPropertyAnimation(self.number_label, b"size")
+        animation.setDuration(500)
+        animation.setStartValue(QSize(10, 10))
+        animation.setEndValue(QSize(100, 100))
+        animation.start()
 
     def start_rhythm_lesson(self):
         username = "test_user"  # Replace with actual username if needed

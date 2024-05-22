@@ -1,23 +1,23 @@
 import math
 import time
 
-import firebase_admin
+# import firebase_admin
 import pygame
 import RPi.GPIO as GPIO
 import spidev
-from firebase_admin import credentials, db
+# from firebase_admin import credentials, db
 from PyQt5.QtCore import QThread, pyqtSignal
 
-# Initialize Firebase
-cred = credentials.Certificate("firebasepvt.json")
-firebase_admin.initialize_app(
-    cred, {"databaseURL": "https://hwsw2-e6856-default-rtdb.firebaseio.com/"}
-)
+# # Initialize Firebase
+# cred = credentials.Certificate("firebasepvt.json")
+# firebase_admin.initialize_app(
+#     cred, {"databaseURL": "https://hwsw2-e6856-default-rtdb.firebaseio.com/"}
+# )
 
 # Initialize pygame mixer
 pygame.init()
 pygame.mixer.init()
-drum_sound = pygame.mixer.Sound("ui/assets/sounds/kick1.wav")
+drum_sound = pygame.mixer.Sound("kick1.wav")
 
 # Setup SPI for MCP3008
 spi = spidev.SpiDev()
@@ -37,16 +37,16 @@ note_times = [1, 2, 3, 5, 7]
 tolerance = 0.5
 
 
-def update_leaderboard(username, score):
-    ref = db.reference("leaderboard")
-    user_ref = ref.child(username)
-    user_data = user_ref.get()
-    if user_data is None:
-        user_ref.set({"username": username, "score": score})
-    else:
-        current_score = user_data["score"]
-        if score > current_score:
-            user_ref.update({"score": score})
+# def update_leaderboard(username, score):
+#     ref = db.reference("leaderboard")
+#     user_ref = ref.child(username)
+#     user_data = user_ref.get()
+#     if user_data is None:
+#         user_ref.set({"username": username, "score": score})
+#     else:
+#         current_score = user_data["score"]
+#         if score > current_score:
+#             user_ref.update({"score": score})
 
 
 def read_channel(channel):
@@ -115,5 +115,5 @@ class RhythmLesson(QThread):
         scores = record_responses()
         score = sum(scores)
         self.progress.emit(f"Your score: {score}/{len(note_times)}")
-        update_leaderboard(self.username, score)
+        # update_leaderboard(self.username, score)
         self.score_signal.emit(f"Your score: {score}/{len(note_times)}")
