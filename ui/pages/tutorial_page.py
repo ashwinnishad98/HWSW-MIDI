@@ -172,6 +172,7 @@ class TutorialPage(QWidget):
         else:
             self.timer.stop()
             self.number_label.clear()
+            self.countdown_label.clear()
             self.callback()
 
     def animate_number_change(self, number):
