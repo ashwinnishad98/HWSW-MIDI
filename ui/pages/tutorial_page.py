@@ -208,6 +208,7 @@ class TutorialPage(QWidget):
         self.message_label.setText(text)
 
     def display_score(self, score_text):
+        self.countdown_label.clear()
         self.update_message(score_text)
         QTimer.singleShot(5000, self.go_back_to_lessons)  # Navigate back after 5 seconds
 
