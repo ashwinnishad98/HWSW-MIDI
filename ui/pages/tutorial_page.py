@@ -208,7 +208,7 @@ class TutorialPage(QWidget):
 
     def display_score(self, score_text):
         self.update_message(score_text)
-        self.stacked_layout.setCurrentWidget(self.lessons_widget)
+        QTimer.singleShot(5000, self.go_back_to_lessons)  # Navigate back after 5 seconds
 
     def go_back_to_lessons(self):
         self.message_label.clear()
