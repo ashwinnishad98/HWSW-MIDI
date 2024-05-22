@@ -101,20 +101,10 @@ class RhythmLesson(QThread):
         self.username = username
 
     def run(self):
-        self.progress.emit("Playing the sequence...")
         play_sequence()
         self.sequence_complete.emit()
-        # self.progress.emit(
-        #     "Now your turn!"
-        # )
-        # time.sleep(1)
-        # self.progress.emit("2 seconds...")
-        # time.sleep(1)
-        # self.progress.emit("1 second...")
-        # time.sleep(1)
-        # self.progress.emit("Start!")
         scores = record_responses()
         score = sum(scores)
-        self.progress.emit(f"Your score: {score}/{len(note_times)}")
+        # self.progress.emit(f"Your score: {score}/{len(note_times)}")
         # update_leaderboard(self.username, score)
         self.score_signal.emit(f"Your score: {score}/{len(note_times)}")

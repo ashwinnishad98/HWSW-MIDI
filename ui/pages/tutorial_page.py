@@ -171,6 +171,7 @@ class TutorialPage(QWidget):
             self.count -= 1
         else:
             self.timer.stop()
+            self.number_label.clear()
             self.callback()
 
     def animate_number_change(self, number):
