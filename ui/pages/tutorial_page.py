@@ -10,9 +10,11 @@ from PyQt5.QtWidgets import (
     QStackedLayout,
     QVBoxLayout,
     QWidget,
+    QTextEdit
 )
 
 from utils.utils import add_musical_notes
+from sensor.lesson_rhythm1 import RhythmLesson
 
 
 class TutorialPage(QWidget):
@@ -96,6 +98,11 @@ class TutorialPage(QWidget):
         )
 
         self.stacked_layout.addWidget(self.countdown_widget)
+        
+        # Add output text area
+        self.output_text = QTextEdit()
+        self.output_text.setReadOnly(True)
+        self.main_layout.addWidget(self.output_text)
 
         self.setLayout(self.main_layout)
 
@@ -128,7 +135,8 @@ class TutorialPage(QWidget):
             layout.addWidget(label)
             button.setLayout(layout)
 
-            button.clicked.connect(self.start_tutorial_countdown)
+            if lesson == "Rhythm 1":
+                button.clicked.connect(self.start_rhythm_1)
 
             self.grid_layout.addWidget(button, *position)
 
@@ -138,6 +146,27 @@ class TutorialPage(QWidget):
         self.grid_layout.addWidget(
             self.back_button_tutorial, 2, 0, 1, 2
         )  # Spanning the back button across the grid
+
+    def start_rhythm_1(self):
+        self.start_countdown("Starting in...", 3, self.start_rhythm_lesson)
+        
+    def start_countdown(self, text, count, callback):
+        self.countdown_label.setText(text)
+        self.number_label.setText(str(count))
+        self.stacked_layout.setCurrentWidget(self.countdown_widget)
+        self.count = count
+        self.callback = callback
+        self.timer = QTimer()
+        self.timer.timeout.connect(self.update_countdown)
+        self.timer.start(1000)
+        
+    def update_countdown(self):
+        if self.count > 0:
+            self.count -= 1
+            self.number_label.setText(str(self.count))
+        else:
+            self.timer.stop()
+            self.callback()
 
     def start_tutorial_countdown(self):
         # Clear current countdown layout
@@ -179,13 +208,27 @@ class TutorialPage(QWidget):
             self.countdown_label.setText("Remember the sounds!")
             self.number_label.setText("")
 
-    def animate_number_change(self, number):
-        self.number_label.setText(number)
-        animation = QPropertyAnimation(self.number_label, b"size")
-        animation.setDuration(500)
-        animation.setStartValue(QSize(10, 10))
-        animation.setEndValue(QSize(100, 100))
-        animation.start()
+    def start_rhythm_lesson(self):
+        username = "test_user"  # Replace with actual username if needed
+        self.rhythm_lesson = RhythmLesson(username)
+        self.rhythm_lesson.progress.connect(self.update_output)
+        self.rhythm_lesson.sequence_complete.connect(self.start_user_turn_countdown)
+        self.rhythm_lesson.score_signal.connect(self.display_score)
+        self.rhythm_lesson.start()
+
+    def start_user_turn_countdown(self):
+        self.start_countdown("Now your turn! Starting in...", 3, self.start_user_turn)
+
+    def start_user_turn(self):
+        self.update_output("Start!")
+        # The user's turn to press the piezo sensor is now handled in the RhythmLesson thread
+
+    def update_output(self, text):
+        self.output_text.append(text)
+
+    def display_score(self, score_text):
+        self.update_output(score_text)
+        self.stacked_layout.setCurrentWidget(self.lessons_widget)
 
     def go_back_to_lessons(self):
         # Switch back to the lessons page
