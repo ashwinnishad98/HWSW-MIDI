@@ -99,7 +99,7 @@ class TutorialPage(QWidget):
 
         self.stacked_layout.addWidget(self.countdown_widget)
 
-         # Create the message display label
+        # Create the message display label
         self.message_label = QLabel("")
         self.message_label.setAlignment(Qt.AlignCenter)
         self.message_label.setStyleSheet(
@@ -151,6 +151,7 @@ class TutorialPage(QWidget):
         )  # Spanning the back button across the grid
 
     def start_rhythm_1(self):
+        self.message_label.clear()
         self.start_countdown("Starting in...", 3, self.start_rhythm_lesson)
 
     def start_countdown(self, text, count, callback):
@@ -183,7 +184,9 @@ class TutorialPage(QWidget):
     def start_rhythm_lesson(self):
         username = "test_user"  # Replace with actual username if needed
         self.update_message("Remember the sounds!")
-        QTimer.singleShot(1000, self.execute_rhythm_lesson)  # Wait for 1 second before starting the lesson
+        QTimer.singleShot(
+            1000, self.execute_rhythm_lesson
+        )  # Wait for 1 second before starting the lesson
 
     def execute_rhythm_lesson(self):
         self.rhythm_lesson = RhythmLesson("test_user")
@@ -196,8 +199,8 @@ class TutorialPage(QWidget):
         self.start_countdown("Your turn! Starting in...", 3, self.start_user_turn)
 
     def start_user_turn(self):
-        self.update_message("Start!")
-        # The user's turn to press the piezo sensor is now handled in the RhythmLesson thread
+        self.update_message("")
+        self.countdown_label.setText("Start!")
 
     def update_message(self, text):
         self.message_label.setText(text)
@@ -207,9 +210,9 @@ class TutorialPage(QWidget):
         self.stacked_layout.setCurrentWidget(self.lessons_widget)
 
     def go_back_to_lessons(self):
-        # Switch back to the lessons page
+        self.message_label.clear()
         self.stacked_layout.setCurrentWidget(self.lessons_widget)
 
     def go_back_to_main(self):
-        # This method assumes the parent has a method to switch to the main page
+        self.message_label.clear()
         self.parent.setCurrentIndex(0)  # Assuming the main page is at index 0
