@@ -101,6 +101,7 @@ class RhythmLesson(QThread):
         self.username = username
 
     def run(self):
+        self.progress.emit("Playing the sequence...")
         play_sequence()
         self.sequence_complete.emit()
         self.progress.emit(

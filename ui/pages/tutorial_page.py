@@ -99,10 +99,13 @@ class TutorialPage(QWidget):
 
         self.stacked_layout.addWidget(self.countdown_widget)
 
-        # Add output text area
-        self.output_text = QTextEdit()
-        self.output_text.setReadOnly(True)
-        self.main_layout.addWidget(self.output_text)
+         # Create the message display label
+        self.message_label = QLabel("")
+        self.message_label.setAlignment(Qt.AlignCenter)
+        self.message_label.setStyleSheet(
+            f"font-size: 24px; color: white; font-family: {self.font_family};"
+        )
+        self.main_layout.addWidget(self.message_label)
 
         self.setLayout(self.main_layout)
 
@@ -179,24 +182,28 @@ class TutorialPage(QWidget):
 
     def start_rhythm_lesson(self):
         username = "test_user"  # Replace with actual username if needed
-        self.rhythm_lesson = RhythmLesson(username)
-        self.rhythm_lesson.progress.connect(self.update_output)
+        self.update_message("Remember the sounds!")
+        QTimer.singleShot(1000, self.execute_rhythm_lesson)  # Wait for 1 second before starting the lesson
+
+    def execute_rhythm_lesson(self):
+        self.rhythm_lesson = RhythmLesson("test_user")
+        self.rhythm_lesson.progress.connect(self.update_message)
         self.rhythm_lesson.sequence_complete.connect(self.start_user_turn_countdown)
         self.rhythm_lesson.score_signal.connect(self.display_score)
         self.rhythm_lesson.start()
 
     def start_user_turn_countdown(self):
-        self.start_countdown("Now your turn! Starting in...", 3, self.start_user_turn)
+        self.start_countdown("Your turn! Starting in...", 3, self.start_user_turn)
 
     def start_user_turn(self):
-        self.update_output("Start!")
+        self.update_message("Start!")
         # The user's turn to press the piezo sensor is now handled in the RhythmLesson thread
 
-    def update_output(self, text):
-        self.output_text.append(text)
+    def update_message(self, text):
+        self.message_label.setText(text)
 
     def display_score(self, score_text):
-        self.update_output(score_text)
+        self.update_message(score_text)
         self.stacked_layout.setCurrentWidget(self.lessons_widget)
 
     def go_back_to_lessons(self):
