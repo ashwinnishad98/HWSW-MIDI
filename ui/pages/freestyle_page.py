@@ -24,8 +24,8 @@ class FreestylePage(QWidget):
         icons = {
             "Piano": "./assets/piano.png",
             "Guitar": "./assets/guitar.png",
-            "Drums": "./assets/drums.png",
-            "Trumpet": "./assets/trumpet.png",
+            "Kick Drum": "./assets/kick.png",
+            "Hi-hat": "./assets/hi-hat.png",
         }
 
         tiles = [QPushButton(name) for name in option_names]
