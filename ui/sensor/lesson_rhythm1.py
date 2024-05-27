@@ -26,8 +26,6 @@ led_pin = board.D18
 num_pixels = 6
 pixels = neopixel.NeoPixel(led_pin, num_pixels, auto_write=False)
 
-pwm = GPIO.PWM(led_pin, 1000)  # Set PWM frequency to 1000 Hz
-pwm.start(0)  # Start PWM with 0% duty cycle
 
 # Define timing for the notes
 note_times = [1, 2, 3, 4.5, 5.5, 6.5, 8, 9, 10]
