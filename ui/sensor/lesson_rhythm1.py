@@ -3,10 +3,12 @@ import time
 
 import board
 import neopixel
+
 # import firebase_admin
 import pygame
 import RPi.GPIO as GPIO
 import spidev
+
 # from firebase_admin import credentials, db
 from PyQt5.QtCore import QThread, pyqtSignal
 
@@ -90,26 +92,32 @@ def play_sequence():
 def record_responses():
     start_time = time.time()
     scores = []
-    response_times = []
+    response_times = [[] for _ in range(6)]  # Separate lists for each channel
 
     while time.time() - start_time < 10:
         current_time = time.time() - start_time
-        sensor_value = read_channel(0)
-
-        if sensor_value > 800:  # Threshold for sensor press
-            response_times.append(current_time)
-            pixels.fill((255, 0, 255))  # Turn all LEDs magenta
-            pixels.show()
-            drum_sound.play()  # Play the drum sound on sensor press
-            time.sleep(0.1)  # LED feedback on sensor press
-            pixels.fill((0, 0, 0))
-            pixels.show()
-            while read_channel(0) > 800:  # Debounce by waiting for release
-                time.sleep(0.01)
+        for channel in range(6):  # Check each channel
+            sensor_value = read_channel(channel)
+            if sensor_value > 800:  # Threshold for sensor press
+                response_times[channel].append(current_time)
+                pixels[channel] = colors[channel]  # Turn the specific LED color
+                pixels.show()
+                drum_sound.play()  # Play the drum sound on sensor press
+                time.sleep(0.1)  # LED feedback on sensor press
+                pixels[channel] = (0, 0, 0)
+                pixels.show()
+                while read_channel(channel) > 800:  # Debounce by waiting for release
+                    time.sleep(0.01)
 
     # Check each response time against the expected times
     for note_time in note_times:
-        scores.append(any(abs(note_time - t) <= tolerance for t in response_times))
+        scores.append(
+            any(
+                abs(note_time - t) <= tolerance
+                for times in response_times
+                for t in times
+            )
+        )
 
     return scores
 
