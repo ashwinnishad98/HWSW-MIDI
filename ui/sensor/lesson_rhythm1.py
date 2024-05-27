@@ -100,16 +100,7 @@ def record_responses():
 
         if sensor_value > 800:  # Threshold for sensor press
             response_times.append(current_time)
-            filtered_value = low_pass_filter(sensor_value, last_filtered_value[0])
-            last_filtered_value[0] = filtered_value
-            brightness = map_value(filtered_value, 0, max_raw_value, to_low, to_high)
-            color = (
-                int(brightness * 255),
-                0,
-                255 - int(brightness * 255),
-            )  # Color based on brightness
-
-            pixels.fill(color)
+            pixels.fill((255, 0, 255))  # Turn all LEDs magenta
             pixels.show()
             drum_sound.play()  # Play the drum sound on sensor press
             time.sleep(0.1)  # LED feedback on sensor press
