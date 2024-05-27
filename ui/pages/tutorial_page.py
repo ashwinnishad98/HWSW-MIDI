@@ -1,20 +1,11 @@
 from PyQt5.QtCore import QPropertyAnimation, QSize, Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QSizePolicy,
-    QSpacerItem,
-    QStackedLayout,
-    QVBoxLayout,
-    QWidget,
-    QTextEdit,
-)
+from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
+                             QSizePolicy, QSpacerItem, QStackedLayout,
+                             QTextEdit, QVBoxLayout, QWidget)
 
-from utils.utils import add_musical_notes
 from sensor.lesson_rhythm1 import RhythmLesson
+from utils.utils import add_musical_notes
 
 
 class TutorialPage(QWidget):
@@ -76,7 +67,7 @@ class TutorialPage(QWidget):
             f"font-size: 48px; color: white; font-family: {self.font_family};"
         )
         self.countdown_layout.addWidget(self.number_label)
-        
+
         # Add kirb image
         self.kirb_label = QLabel()
         self.kirb_pixmap = QPixmap("assets/kirb.png")
@@ -219,7 +210,9 @@ class TutorialPage(QWidget):
     def display_score(self, score_text):
         # self.countdown_label.clear()
         self.update_message(score_text)
-        QTimer.singleShot(5000, self.go_back_to_lessons)  # Navigate back after 5 seconds
+        QTimer.singleShot(
+            5000, self.go_back_to_lessons
+        )  # Navigate back after 5 seconds
 
     def go_back_to_lessons(self):
         self.kirb_label.hide()  # Hide kirb image when tutorial ends

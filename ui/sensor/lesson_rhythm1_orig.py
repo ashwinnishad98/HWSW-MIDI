@@ -10,6 +10,12 @@ import spidev
 # from firebase_admin import credentials, db
 from PyQt5.QtCore import QThread, pyqtSignal
 
+# # Initialize Firebase
+# cred = credentials.Certificate("firebasepvt.json")
+# firebase_admin.initialize_app(
+#     cred, {"databaseURL": "https://hwsw2-e6856-default-rtdb.firebaseio.com/"}
+# )
+
 # Initialize pygame mixer
 pygame.init()
 pygame.mixer.init()
@@ -25,12 +31,14 @@ spi.mode = 0
 led_pin = board.D18
 num_pixels = 6
 pixels = neopixel.NeoPixel(led_pin, num_pixels, auto_write=False)
+# GPIO.setmode(GPIO.BCM)
+# GPIO.setup(led_pin, GPIO.OUT)
 
 pwm = GPIO.PWM(led_pin, 1000)  # Set PWM frequency to 1000 Hz
 pwm.start(0)  # Start PWM with 0% duty cycle
 
 # Define timing for the notes
-note_times = [1, 2, 3, 4.5, 5.5, 6.5, 8, 9, 10]
+note_times = [1, 2, 3, 5, 7]
 tolerance = 0.5
 
 # Define unique colors for each LED
@@ -42,8 +50,6 @@ colors = [
     (0, 255, 255),  # Cyan
     (255, 0, 255),  # Magenta
 ]
-# LED sequence order
-led_sequence = [0, 0, 0, 1, 2, 3, 4, 5, 0]
 
 # Setup thresholds and timing for each sensor
 threshold = [300] * 6
@@ -57,35 +63,34 @@ to_low = 0.1
 to_high = 1.0
 
 
+# def update_leaderboard(username, score):
+#     ref = db.reference("leaderboard")
+#     user_ref = ref.child(username)
+#     user_data = user_ref.get()
+#     if user_data is None:
+#         user_ref.set({"username": username, "score": score})
+#     else:
+#         current_score = user_data["score"]
+#         if score > current_score:
+#             user_ref.update({"score": score})
+
+
 def read_channel(channel):
     adc = spi.xfer2([1, (8 + channel) << 4, 0])
     data = ((adc[1] & 3) << 8) + adc[2]
     return data
 
 
-def map_value(value, from_low, from_high, to_low, to_high):
-    """Map value to a different range, applying a square root to increase sensitivity at lower range."""
-    range_ratio = (value - from_low) / (from_high - from_low)
-    exp_ratio = range_ratio**0.5
-    return (exp_ratio * (to_high - to_low)) + to_low
-
-
-def low_pass_filter(new_value, last_value, alpha=0.2):
-    """Apply low-pass filter to smooth the signal."""
-    return alpha * new_value + (1 - alpha) * last_value
-
-
 def play_sequence():
     start_time = time.time()
-    for i, note_time in enumerate(note_times):
+    for note_time in note_times:
         while time.time() < start_time + note_time:
             time.sleep(0.01)
-        led_index = led_sequence[i]
-        pixels[led_index] = colors[led_index]
+        pixels.fill((0, 255, 255))  # turn all LEDs red
         pixels.show()
         drum_sound.play()  # Play the drum sound when LED lights up
         time.sleep(0.1)  # LED on duration
-        pixels[led_index] = (0, 0, 0)
+        pixels.fill((0, 0, 0))
         pixels.show()
 
 
@@ -100,16 +105,7 @@ def record_responses():
 
         if sensor_value > 800:  # Threshold for sensor press
             response_times.append(current_time)
-            filtered_value = low_pass_filter(sensor_value, last_filtered_value[0])
-            last_filtered_value[0] = filtered_value
-            brightness = map_value(filtered_value, 0, max_raw_value, to_low, to_high)
-            color = (
-                int(brightness * 255),
-                0,
-                255 - int(brightness * 255),
-            )  # Color based on brightness
-
-            pixels.fill(color)
+            pixels.fill((255, 0, 255))  # Turn all LEDs green
             pixels.show()
             drum_sound.play()  # Play the drum sound on sensor press
             time.sleep(0.1)  # LED feedback on sensor press
@@ -139,4 +135,6 @@ class RhythmLesson(QThread):
         self.sequence_complete.emit()
         scores = record_responses()
         score = sum(scores)
+        # self.progress.emit(f"Your score: {score}/{len(note_times)}")
+        # update_leaderboard(self.username, score)
         self.score_signal.emit(f"Your score: {score}/{len(note_times)}")
