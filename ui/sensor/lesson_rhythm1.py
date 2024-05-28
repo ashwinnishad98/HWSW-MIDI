@@ -1,14 +1,11 @@
-import math
 import time
 
 import board
 import neopixel
-
 # import firebase_admin
 import pygame
 import RPi.GPIO as GPIO
 import spidev
-
 # from firebase_admin import credentials, db
 from PyQt5.QtCore import QThread, pyqtSignal
 

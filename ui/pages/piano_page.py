@@ -1,6 +1,7 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGridLayout, QVBoxLayout, QPushButton, QWidget
+from PyQt5.QtWidgets import QGridLayout, QPushButton, QVBoxLayout, QWidget
+
 from sensor.play_piano import PianoLesson  # Import PianoLesson
+
 
 class PianoPage(QWidget):
     def __init__(self, parent):

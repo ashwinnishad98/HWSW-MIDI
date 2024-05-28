@@ -33,16 +33,16 @@ colors = [
 ]
 
 note_files = [
-    "./sounds/piano/C.wav",
-    "./sounds/piano/D.wav",
-    "./sounds/piano/E.wav",
-    "./sounds/piano/F.wav",
-    "./sounds/piano/G.wav",
-    "./sounds/piano/A.wav",
+    "./sounds/hi-hat/1.wav",
+    "./sounds/hi-hat/2.wav",
+    "./sounds/hi-hat/3.wav",
+    "./sounds/hi-hat/4.wav",
+    "./sounds/hi-hat/5.wav",
+    "./sounds/hi-hat/6.wav",
 ]
 
 
-class PianoLesson(QThread):
+class HiHatLesson(QThread):
     progress = pyqtSignal(str)
 
     def __init__(self):

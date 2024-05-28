@@ -1,10 +1,13 @@
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget
 
 from utils.utils import add_musical_notes
-from .piano_page import PianoPage
+
 from .guitar_page import GuitarPage
+from .hihat_page import HiHatPage
+from .kick_page import KickPage
+from .piano_page import PianoPage
 
 
 class FreestylePage(QWidget):
@@ -48,13 +51,15 @@ class FreestylePage(QWidget):
             )
             position = (i // 2, i % 2)
             self.grid_layout.addWidget(button, *position)
-            
+
             if name == "Piano":
                 button.clicked.connect(self.show_piano_page)
             elif name == "Guitar":
                 button.clicked.connect(self.show_guitar_page)
-                
-            
+            elif name == "Kick Drum":
+                button.clicked.connect(self.show_kick_page)
+            elif name == "Hi-hat":
+                button.clicked.connect(self.show_hihat_page)
 
         # Back button
         back_button_freestyle = QPushButton("Back")
@@ -66,7 +71,7 @@ class FreestylePage(QWidget):
         freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
         self.setLayout(freestyle_layout)
-        
+
     def show_piano_page(self):
         self.piano_page = PianoPage(self)
         self.parent.addWidget(self.piano_page)
@@ -76,3 +81,13 @@ class FreestylePage(QWidget):
         self.guitar_page = GuitarPage(self)
         self.parent.addWidget(self.guitar_page)
         self.parent.setCurrentWidget(self.guitar_page)
+
+    def show_kick_page(self):
+        self.kick_page = KickPage(self)
+        self.parent.addWidget(self.kick_page)
+        self.parent.setCurrentWidget(self.kick_page)
+
+    def show_hihat_page(self):
+        self.hihat_page = HiHatPage(self)
+        self.parent.addWidget(self.hihat_page)
+        self.parent.setCurrentWidget(self.hihat_page)

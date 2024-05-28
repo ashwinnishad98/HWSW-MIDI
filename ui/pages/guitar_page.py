@@ -1,6 +1,7 @@
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QGridLayout, QVBoxLayout, QPushButton, QWidget
+from PyQt5.QtWidgets import QGridLayout, QPushButton, QVBoxLayout, QWidget
+
 from sensor.play_guitar import GuitarLesson  # Import GuitarLesson
+
 
 class GuitarPage(QWidget):
     def __init__(self, parent):

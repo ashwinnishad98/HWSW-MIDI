@@ -1,9 +1,10 @@
 import time
+
+import board
+import neopixel
 import pygame
 import RPi.GPIO as GPIO
 import spidev
-import board
-import neopixel
 from PyQt5.QtCore import QThread, pyqtSignal
 
 # Initialize pygame mixer
