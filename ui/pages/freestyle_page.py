@@ -3,7 +3,7 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QVBoxLayout
 
 from utils.utils import add_musical_notes
-from piano_page import PianoPage
+from sensor.play_piano import PianoPage
 
 
 class FreestylePage(QWidget):
