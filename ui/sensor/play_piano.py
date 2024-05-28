@@ -32,12 +32,12 @@ colors = [
 ]
 
 note_files = [
-    "./sounds/piano/a.mp3",
-    "./sounds/piano/b.mp3",
-    "./sounds/piano/c.mp3",
-    "./sounds/piano/d.mp3",
-    "./sounds/piano/e.mp3",
-    "./sounds/piano/f.mp3",
+    "./sounds/piano/C.wav",
+    "./sounds/piano/D.wav",
+    "./sounds/piano/E.wav",
+    "./sounds/piano/F.wav",
+    "./sounds/piano/G.wav",
+    "./sounds/piano/A.wav",
 ]
 
 
