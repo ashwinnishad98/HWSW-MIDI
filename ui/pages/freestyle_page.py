@@ -1,13 +1,15 @@
 from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget
+from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QVBoxLayout
 
 from utils.utils import add_musical_notes
+from piano_page import PianoPage
 
 
 class FreestylePage(QWidget):
     def __init__(self, parent):
         super().__init__(parent)
+        self.parent = parent
         self.initUI()
 
     def initUI(self):
@@ -16,10 +18,10 @@ class FreestylePage(QWidget):
         # Add musical notes to the freestyle layout
         add_musical_notes(freestyle_layout)
 
-        grid_layout = QGridLayout()
+        self.grid_layout = QGridLayout()
 
         # Creating 4 tiles with different option names
-        option_names = ["Piano", "Guitar", "Drums", "Trumpet"]
+        option_names = ["Piano", "Guitar", "Kick Drum", "Hi-hat"]
 
         icons = {
             "Piano": "./assets/piano.png",
@@ -28,12 +30,10 @@ class FreestylePage(QWidget):
             "Hi-hat": "./assets/hi-hat.png",
         }
 
-        tiles = [QPushButton(name) for name in option_names]
-
         # Create buttons with icons
         for i, name in enumerate(option_names):
             button = QPushButton(name)
-            button.setFixedSize(230, 130)  # Making each button a square
+            button.setFixedSize(230, 130)  # setting button size
 
             # Set icon if available
             if name in icons:
@@ -46,15 +46,23 @@ class FreestylePage(QWidget):
                 "text-align: bottom; font: bold; font-size: 14px; color: white;"
             )
             position = (i // 2, i % 2)
-            grid_layout.addWidget(button, *position)
+            self.grid_layout.addWidget(button, *position)
+            
+            if name == "Piano":
+                button.clicked.connect(self.show_piano_page)
 
         # Back button
         back_button_freestyle = QPushButton("Back")
         back_button_freestyle.clicked.connect(lambda: self.parent().setCurrentIndex(0))
-        grid_layout.addWidget(
+        self.grid_layout.addWidget(
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
 
-        freestyle_layout.addLayout(grid_layout)
+        freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
         self.setLayout(freestyle_layout)
+        
+    def show_piano_page(self):
+        self.piano_page = PianoPage(self)
+        self.parent.addWidget(self.piano_page)
+        self.parent.setCurrentWidget(self.piano_page)
