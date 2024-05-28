@@ -4,6 +4,7 @@ from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QVBo
 
 from utils.utils import add_musical_notes
 from .piano_page import PianoPage
+from .guitar_page import GuitarPage
 
 
 class FreestylePage(QWidget):
@@ -50,6 +51,10 @@ class FreestylePage(QWidget):
             
             if name == "Piano":
                 button.clicked.connect(self.show_piano_page)
+            elif name == "Guitar":
+                button.clicked.connect(self.show_guitar_page)
+                
+            
 
         # Back button
         back_button_freestyle = QPushButton("Back")
@@ -66,3 +71,8 @@ class FreestylePage(QWidget):
         self.piano_page = PianoPage(self)
         self.parent.addWidget(self.piano_page)
         self.parent.setCurrentWidget(self.piano_page)
+
+    def show_guitar_page(self):
+        self.guitar_page = GuitarPage(self)
+        self.parent.addWidget(self.guitar_page)
+        self.parent.setCurrentWidget(self.guitar_page)
