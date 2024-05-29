@@ -115,5 +115,5 @@ class PianoPage(QWidget):
 
     def go_back_to_freestyle(self):
         self.piano_lesson.stop()  # Stop the piano lesson
-        self.parent.setCurrentWidget(self.parent)
-        self.parent.removeWidget(self)
+        self.parent.setCurrentWidget(self.parent().parent())
+        self.parent().removeWidget(self)
