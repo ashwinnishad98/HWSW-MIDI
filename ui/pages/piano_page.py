@@ -1,15 +1,24 @@
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
-                             QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
+)
 
 from sensor.play_piano import PianoLesson, SaveRecordingThread
 
 
 class PianoPage(QWidget):
-    def __init__(self, parent):
+    def __init__(self, parent, stacked_widget):
         super().__init__(parent)
         self.parent = parent
+        self.stacked_widget = stacked_widget
         self.initUI()
 
     def initUI(self):
@@ -107,5 +116,5 @@ class PianoPage(QWidget):
 
     def go_back_to_freestyle(self):
         self.piano_lesson.stop()  # Stop the piano lesson
-        self.parent.setCurrentWidget(self.parent())
+        self.stacked_widget.setCurrentWidget(self.parent())
         # self.parent.removeWidget(self)
