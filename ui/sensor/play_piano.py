@@ -86,28 +86,39 @@ class PianoLesson(QThread):
         recording = np.zeros((recording_duration * sample_rate, 2))  # Stereo recording
 
         start_time = time.time()
-        for i in range(recording_duration * sample_rate):
+        current_index = 0
+
+        while time.time() - start_time < recording_duration:
             if not self.running:
-                break
-            if time.time() - start_time >= recording_duration:
                 break
 
             for j in range(num_pixels):
                 sensor_value = read_channel(j)
                 if sensor_value > 800:  # Threshold for sensor press
-                    pygame.mixer.Sound(note_files[j]).play()  # Play corresponding note
+                    sound = pygame.mixer.Sound(note_files[j])
+                    sound.play()
                     pixels[j] = colors[j]
                     pixels.show()
                     time.sleep(0.1)
                     pixels[j] = (0, 0, 0)
                     pixels.show()
 
-                    # Add audio to recording
-                    recording[i] = np.array([sensor_value, sensor_value])
+                    # Capture the played sound
+                    sound_array = pygame.sndarray.array(sound)
+                    num_samples = len(sound_array)
 
+                    if current_index + num_samples < len(recording):
+                        recording[current_index : current_index + num_samples] = (
+                            sound_array[:num_samples]
+                        )
+                    else:
+                        break
+
+                    current_index += num_samples
+
+        print("Recording captured.")
         self.recording_signal.emit(recording)
         self.finished.emit()
-        print("Recording finished.")
 
     def stop(self):
         self.running = False
