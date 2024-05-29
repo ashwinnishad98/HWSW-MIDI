@@ -73,7 +73,7 @@ class FreestylePage(QWidget):
         self.setLayout(freestyle_layout)
 
     def show_piano_page(self):
-        self.piano_page = PianoPage(self.parent)
+        self.piano_page = PianoPage(self)
         self.parent.addWidget(self.piano_page)
         self.parent.setCurrentWidget(self.piano_page)
 
@@ -88,6 +88,6 @@ class FreestylePage(QWidget):
         self.parent.setCurrentWidget(self.kick_page)
 
     def show_hihat_page(self):
-        self.hihat_page = HiHatPage(self.parent)
+        self.hihat_page = HiHatPage(self)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)

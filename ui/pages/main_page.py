@@ -97,10 +97,10 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.song_library_page)
 
     def show_tutorials(self):
-        self.stacked_widget.setCurrentIndex(1)
+        self.stacked_widget.setCurrentWidget(self.tutorial_page)
 
     def show_freestyle(self):
-        self.stacked_widget.setCurrentIndex(2)
+        self.stacked_widget.setCurrentWidget(self.freestyle_page)
 
     def show_song_library(self):
-        self.stacked_widget.setCurrentIndex(3)
+        self.stacked_widget.setCurrentWidget(self.freestyle_page)
