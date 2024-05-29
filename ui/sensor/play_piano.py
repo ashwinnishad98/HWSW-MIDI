@@ -1,9 +1,10 @@
 import time
+import wave
 
 import board
 import neopixel
+import numpy as np
 import pygame
-import RPi.GPIO as GPIO
 import spidev
 from PyQt5.QtCore import QThread, pyqtSignal
 
@@ -41,38 +42,78 @@ note_files = [
     "./sounds/piano/A.wav",
 ]
 
+# Recording parameters
+sample_rate = 44100
+recording_duration = 10  # seconds
+
+
+def read_channel(channel):
+    adc = spi.xfer2([1, (8 + channel) << 4, 0])
+    data = ((adc[1] & 3) << 8) + adc[2]
+    return data
+
 
 class PianoLesson(QThread):
-    progress = pyqtSignal(str)
+    # progress = pyqtSignal(str)
+    finished = pyqtSignal()
 
     def __init__(self):
         super().__init__()
         self.running = True
 
     def run(self):
+        if self.record:
+            self.record_piano()
+        else:
+            self.play_piano()
+
+    def play_piano(self):
         while self.running:
-            for channel in range(6):
-                sensor_value = self.read_channel(channel)
+            for j in range(num_pixels):
+                sensor_value = read_channel(j)
                 if sensor_value > 800:  # Threshold for sensor press
-                    self.play_sound(channel)
-                    pixels[channel] = colors[channel]  # Turn the specific LED color
+                    pygame.mixer.Sound(note_files[j]).play()
+                    pixels[j] = colors[j]
                     pixels.show()
-                    time.sleep(0.1)  # LED feedback on sensor press
-                    pixels[channel] = (0, 0, 0)
+                    time.sleep(0.1)
+                    pixels[j] = (0, 0, 0)
                     pixels.show()
-                    while (
-                        self.read_channel(channel) > 800
-                    ):  # Debounce by waiting for release
-                        time.sleep(0.01)
+                    time.sleep(0.1)  # Debounce time
 
-    def read_channel(self, channel):
-        adc = spi.xfer2([1, (8 + channel) << 4, 0])
-        data = ((adc[1] & 3) << 8) + adc[2]
-        return data
+    def record_piano(self):
+        print("Recording started.")
+        recording = np.zeros((recording_duration * sample_rate, 2))  # Stereo recording
 
-    def play_sound(self, channel):
-        sound = pygame.mixer.Sound(note_files[channel])
-        sound.play()
+        start_time = time.time()
+        for i in range(recording_duration * sample_rate):
+            if not self.running:
+                break
+            if time.time() - start_time >= recording_duration:
+                break
+
+            for j in range(num_pixels):
+                sensor_value = read_channel(j)
+                if sensor_value > 800:  # Threshold for sensor press
+                    pygame.mixer.Sound(note_files[j]).play()  # Play corresponding note
+                    pixels[j] = colors[j]
+                    pixels.show()
+                    time.sleep(0.1)
+                    pixels[j] = (0, 0, 0)
+                    pixels.show()
+
+                    # Add audio to recording
+                    recording[i] = np.array([sensor_value, sensor_value])
+
+        # Save recording as .wav file
+        wf = wave.open("piano_recording.wav", "wb")
+        wf.setnchannels(2)
+        wf.setsampwidth(2)
+        wf.setframerate(sample_rate)
+        wf.writeframes(recording.astype(np.int16).tobytes())
+        wf.close()
+
+        print("Recording saved as piano_recording.wav.")
+        self.finished.emit()
 
     def stop(self):
         self.running = False

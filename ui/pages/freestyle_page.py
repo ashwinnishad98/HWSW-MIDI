@@ -73,21 +73,21 @@ class FreestylePage(QWidget):
         self.setLayout(freestyle_layout)
 
     def show_piano_page(self):
-        self.piano_page = PianoPage(self)
+        self.piano_page = PianoPage(self.parent)
         self.parent.addWidget(self.piano_page)
         self.parent.setCurrentWidget(self.piano_page)
 
     def show_guitar_page(self):
-        self.guitar_page = GuitarPage(self)
+        self.guitar_page = GuitarPage(self.parent)
         self.parent.addWidget(self.guitar_page)
         self.parent.setCurrentWidget(self.guitar_page)
 
     def show_kick_page(self):
-        self.kick_page = KickPage(self)
+        self.kick_page = KickPage(self.parent)
         self.parent.addWidget(self.kick_page)
         self.parent.setCurrentWidget(self.kick_page)
 
     def show_hihat_page(self):
-        self.hihat_page = HiHatPage(self)
+        self.hihat_page = HiHatPage(self.parent)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)

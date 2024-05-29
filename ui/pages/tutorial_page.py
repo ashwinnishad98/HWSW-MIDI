@@ -2,7 +2,7 @@ from PyQt5.QtCore import QPropertyAnimation, QSize, Qt, QTimer
 from PyQt5.QtGui import QPixmap
 from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
                              QSizePolicy, QSpacerItem, QStackedLayout,
-                             QTextEdit, QVBoxLayout, QWidget)
+                             QVBoxLayout, QWidget)
 
 from sensor.lesson_rhythm1 import RhythmLesson
 from utils.utils import add_musical_notes
