@@ -33,12 +33,12 @@ colors = [
 ]
 
 note_files = [
-    "./sounds/guitar/C.wav",
-    "./sounds/guitar/D.wav",
-    "./sounds/guitar/E.wav",
-    "./sounds/guitar/F.wav",
-    "./sounds/guitar/G.wav",
-    "./sounds/guitar/A.wav",
+    "./sounds/guitar/c.wav",
+    "./sounds/guitar/d.wav",
+    "./sounds/guitar/e.wav",
+    "./sounds/guitar/f.wav",
+    "./sounds/guitar/g.wav",
+    "./sounds/guitar/a.wav",
 ]
 
 
