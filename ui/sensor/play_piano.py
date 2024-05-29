@@ -54,8 +54,8 @@ def read_channel(channel):
 
 
 class PianoLesson(QThread):
-    # progress = pyqtSignal(str)
     finished = pyqtSignal()
+    recording_signal = pyqtSignal(np.ndarray)
 
     def __init__(self, record=False):
         super().__init__()
@@ -105,18 +105,26 @@ class PianoLesson(QThread):
                     # Add audio to recording
                     recording[i] = np.array([sensor_value, sensor_value])
 
-        # Save recording as .wav file
-        wf = wave.open("piano_recording.wav", "wb")
-        wf.setnchannels(2)
-        wf.setsampwidth(2)
-        wf.setframerate(sample_rate)
-        wf.writeframes(recording.astype(np.int16).tobytes())
-        wf.close()
-
-        print("Recording saved as piano_recording.wav.")
+        self.recording_signal.emit(recording)
         self.finished.emit()
+        print("Recording finished.")
 
     def stop(self):
         self.running = False
         self.quit()
         self.wait()
+
+
+class SaveRecordingThread(QThread):
+    def __init__(self, recording):
+        super().__init__()
+        self.recording = recording
+
+    def run(self):
+        wf = wave.open("piano_recording.wav", "wb")
+        wf.setnchannels(2)
+        wf.setsampwidth(2)
+        wf.setframerate(sample_rate)
+        wf.writeframes(self.recording.astype(np.int16).tobytes())
+        wf.close()
+        print("Recording saved as piano_recording.wav.")
