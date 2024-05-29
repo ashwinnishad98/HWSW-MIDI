@@ -57,8 +57,9 @@ class PianoLesson(QThread):
     # progress = pyqtSignal(str)
     finished = pyqtSignal()
 
-    def __init__(self):
+    def __init__(self, record=False):
         super().__init__()
+        self.record = record
         self.running = True
 
     def run(self):
