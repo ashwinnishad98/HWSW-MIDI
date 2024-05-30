@@ -1,5 +1,4 @@
 import time
-import wave
 
 import board
 import neopixel
@@ -7,6 +6,8 @@ import numpy as np
 import pygame
 import spidev
 from PyQt5.QtCore import QThread, pyqtSignal
+from .save_recording_thread import SaveRecordingThread
+
 
 # Initialize pygame mixer
 pygame.init()
@@ -124,18 +125,3 @@ class PianoLesson(QThread):
         self.running = False
         self.quit()
         self.wait()
-
-
-class SaveRecordingThread(QThread):
-    def __init__(self, recording):
-        super().__init__()
-        self.recording = recording
-
-    def run(self):
-        wf = wave.open("piano_recording.wav", "wb")
-        wf.setnchannels(2)
-        wf.setsampwidth(2)
-        wf.setframerate(sample_rate)
-        wf.writeframes(self.recording.astype(np.int16).tobytes())
-        wf.close()
-        print("Recording saved as piano_recording.wav.")
