@@ -3,6 +3,9 @@ from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
 from pages.tutorial_page import TutorialPage
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
+import pygame
+import time
+import os
 from PyQt5.QtWidgets import (
     QHBoxLayout,
     QLabel,
@@ -55,6 +58,7 @@ class MainWindow(QMainWindow):
         self.setGeometry(100, 100, 300, 200)
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
+        pygame.mixer.init()  # Initialize pygame mixer
         self.initUI()
 
     def initUI(self):

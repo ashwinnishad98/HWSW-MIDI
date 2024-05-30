@@ -1,12 +1,15 @@
-from PyQt5.QtCore import QSize
+import os
+from PyQt5.QtCore import QSize, Qt
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget
+from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QLabel
 from utils.utils import add_musical_notes
+import pygame
 
 from .guitar_page import GuitarPage
 from .hihat_page import HiHatPage
 from .kick_page import KickPage
 from .piano_page import PianoPage
+from songify import Songify  # Import the Songify class
 
 
 class FreestylePage(QWidget):
@@ -68,6 +71,15 @@ class FreestylePage(QWidget):
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
 
+        # Check if there are files in the session folder and add the Songify button if files exist
+        if any(fname.endswith(".wav") for fname in os.listdir(self.session_folder)):
+            songify_button = QPushButton("Songify!")
+            songify_button.setFixedWidth(200)
+            songify_button.clicked.connect(self.songify)
+            self.grid_layout.addWidget(
+                songify_button, 2, 1, 1, 1
+            )  # Position the songify button
+
         freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
         self.setLayout(freestyle_layout)
@@ -91,3 +103,28 @@ class FreestylePage(QWidget):
         self.hihat_page = HiHatPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)
+
+    def songify(self):
+        songify_thread = Songify(self.session_folder)
+        songify_thread.finished.connect(self.on_songify_finished)
+        songify_thread.start()
+
+    def on_songify_finished(self):
+        self.show_message("A Rockstar Made This!")
+        self.play_final_song()
+
+    def show_message(self, message):
+        self.message_label = QLabel(message)
+        self.message_label.setAlignment(Qt.AlignCenter)
+        self.message_label.setStyleSheet("font-size: 24px; color: white;")
+        self.grid_layout.addWidget(
+            self.message_label, 3, 0, 1, 2
+        )  # Position the message label
+
+    def play_final_song(self):
+        final_song_path = os.path.join(self.session_folder, "final.wav")
+        pygame.mixer.music.load(final_song_path)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+        self.parent.setCurrentWidget(self)
