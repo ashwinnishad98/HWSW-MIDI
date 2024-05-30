@@ -63,7 +63,7 @@ class FreestylePage(QWidget):
 
         # Back button
         back_button_freestyle = QPushButton("Back")
-        back_button_freestyle.clicked.connect(lambda: self.parent().setCurrentIndex(0))
+        back_button_freestyle.clicked.connect(lambda: self.parent.setCurrentIndex(0))
         self.grid_layout.addWidget(
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
