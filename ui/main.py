@@ -1,9 +1,8 @@
 import sys
 
-from PyQt5.QtWidgets import QApplication
-
 from config import load_font, load_stylesheet
 from pages.main_page import MainWindow
+from PyQt5.QtWidgets import QApplication
 
 
 def main():

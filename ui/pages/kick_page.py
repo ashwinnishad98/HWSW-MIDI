@@ -7,9 +7,10 @@ from sensor.play_kick import KickLesson  # Import KickLesson
 
 
 class KickPage(QWidget):
-    def __init__(self, parent):
+    def __init__(self, parent, stacked_widget):
         super().__init__(parent)
         self.parent = parent
+        self.stacked_widget = stacked_widget
         self.initUI()
 
     def initUI(self):
@@ -62,5 +63,4 @@ class KickPage(QWidget):
 
     def go_back_to_freestyle(self):
         self.kick_lesson.stop()  # Stop the kick lesson
-        self.parent.setCurrentWidget(self.parent.parent())
-        self.parent.removeWidget(self)
+        self.stacked_widget.setCurrentWidget(self.parent)

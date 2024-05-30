@@ -1,15 +1,7 @@
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QSizePolicy,
-    QSpacerItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
+                             QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 from sensor.play_piano import PianoLesson, SaveRecordingThread
 

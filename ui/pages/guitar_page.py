@@ -7,9 +7,10 @@ from sensor.play_guitar import GuitarLesson  # Import GuitarLesson
 
 
 class GuitarPage(QWidget):
-    def __init__(self, parent):
+    def __init__(self, parent, stacked_widget):
         super().__init__(parent)
         self.parent = parent
+        self.stacked_widget = stacked_widget
         self.initUI()
 
     def initUI(self):
@@ -62,5 +63,4 @@ class GuitarPage(QWidget):
 
     def go_back_to_freestyle(self):
         self.guitar_lesson.stop()  # Stop the guitar lesson
-        self.parent.setCurrentWidget(self.parent.parent())
-        self.parent.removeWidget(self)
+        self.stacked_widget.setCurrentWidget(self.parent)

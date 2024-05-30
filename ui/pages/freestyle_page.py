@@ -1,7 +1,6 @@
 from PyQt5.QtCore import QSize
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget
-
 from utils.utils import add_musical_notes
 
 from .guitar_page import GuitarPage
@@ -78,16 +77,16 @@ class FreestylePage(QWidget):
         self.parent.setCurrentWidget(self.piano_page)
 
     def show_guitar_page(self):
-        self.guitar_page = GuitarPage(self.parent)
+        self.guitar_page = GuitarPage(self, self.parent)
         self.parent.addWidget(self.guitar_page)
         self.parent.setCurrentWidget(self.guitar_page)
 
     def show_kick_page(self):
-        self.kick_page = KickPage(self.parent)
+        self.kick_page = KickPage(self, self.parent)
         self.parent.addWidget(self.kick_page)
         self.parent.setCurrentWidget(self.kick_page)
 
     def show_hihat_page(self):
-        self.hihat_page = HiHatPage(self)
+        self.hihat_page = HiHatPage(self, self.parent)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)
