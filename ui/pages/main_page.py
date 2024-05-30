@@ -1,11 +1,49 @@
 from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
 from pages.tutorial_page import TutorialPage
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QHBoxLayout, QLabel, QMainWindow, QPushButton,
-                             QSizePolicy, QSpacerItem, QStackedWidget,
-                             QVBoxLayout, QWidget)
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtWidgets import (
+    QHBoxLayout,
+    QLabel,
+    QMainWindow,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QStackedWidget,
+    QVBoxLayout,
+    QWidget,
+)
 from utils.utils import add_musical_notes
+import spidev
+
+# Setup SPI for MCP3008
+spi = spidev.SpiDev()
+spi.open(0, 0)
+spi.max_speed_hz = 1350000
+
+
+# Function to read from MCP3008
+def read_channel(channel):
+    adc = spi.xfer2([1, (8 + channel) << 4, 0])
+    data = ((adc[1] & 3) << 8) + adc[2]
+    return data
+
+
+class PotentiometerReader(QThread):
+    potentiometer_value = pyqtSignal(int)
+
+    def __init__(self):
+        super().__init__()
+        self.running = True
+
+    def run(self):
+        while self.running:
+            value = read_channel(0)  # Read the potentiometer value from CH0
+            self.potentiometer_value.emit(value)
+            self.msleep(100)  # Read every 100ms
+
+    def stop(self):
+        self.running = False
 
 
 class MainWindow(QMainWindow):
@@ -24,6 +62,8 @@ class MainWindow(QMainWindow):
         Main Menu Page with musical notes on the sides
         ------------------------------------------------
         """
+        self.potentiometer_value = 0
+
         main_layout = QHBoxLayout()
 
         # Add musical notes to the main layout
@@ -85,6 +125,11 @@ class MainWindow(QMainWindow):
 
         self.init_pages()
 
+        # Initialize the potentiometer reader
+        self.pot_reader = PotentiometerReader()
+        self.pot_reader.potentiometer_value.connect(self.handle_potentiometer_input)
+        self.pot_reader.start()
+
     def init_pages(self):
         self.tutorial_page = TutorialPage(self.stacked_widget, self.font_family)
         self.stacked_widget.addWidget(self.tutorial_page)
@@ -103,3 +148,27 @@ class MainWindow(QMainWindow):
 
     def show_song_library(self):
         self.stacked_widget.setCurrentWidget(self.freestyle_page)
+
+    def handle_potentiometer_input(self, value):
+        # Normalize the potentiometer value to a range, e.g., 0-100
+        normalized_value = int((value / 1023.0) * 100)
+
+        # Determine which button to highlight based on the normalized value
+        if normalized_value < 33:
+            self.highlight_button(0)
+        elif normalized_value < 66:
+            self.highlight_button(1)
+        else:
+            self.highlight_button(2)
+
+    def highlight_button(self, index):
+        # Reset all buttons to default style
+        for button in self.buttons:
+            button.setStyleSheet("")
+
+        # Highlight the selected button
+        self.buttons[index].setStyleSheet("background-color: yellow;")
+
+    def closeEvent(self, event):
+        self.pot_reader.stop()
+        super().closeEvent(event)
