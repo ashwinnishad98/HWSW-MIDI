@@ -10,9 +10,10 @@ from .piano_page import PianoPage
 
 
 class FreestylePage(QWidget):
-    def __init__(self, parent):
+    def __init__(self, parent, session_folder):
         super().__init__(parent)
         self.parent = parent
+        self.session_folder = session_folder
         self.initUI()
 
     def initUI(self):
@@ -72,21 +73,21 @@ class FreestylePage(QWidget):
         self.setLayout(freestyle_layout)
 
     def show_piano_page(self):
-        self.piano_page = PianoPage(self, self.parent)
+        self.piano_page = PianoPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.piano_page)
         self.parent.setCurrentWidget(self.piano_page)
 
     def show_guitar_page(self):
-        self.guitar_page = GuitarPage(self, self.parent)
+        self.guitar_page = GuitarPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.guitar_page)
         self.parent.setCurrentWidget(self.guitar_page)
 
     def show_kick_page(self):
-        self.kick_page = KickPage(self, self.parent)
+        self.kick_page = KickPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.kick_page)
         self.parent.setCurrentWidget(self.kick_page)
 
     def show_hihat_page(self):
-        self.hihat_page = HiHatPage(self, self.parent)
+        self.hihat_page = HiHatPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)

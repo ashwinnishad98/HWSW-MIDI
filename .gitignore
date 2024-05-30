@@ -4,3 +4,5 @@ ignore/app.py
 **/__pycache__/
 **/*.pyc
 **/venv/
+ui/**
+ui/sensor/__pycache__

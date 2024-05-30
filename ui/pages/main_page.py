@@ -135,7 +135,7 @@ class MainWindow(QMainWindow):
         self.tutorial_page = TutorialPage(self.stacked_widget, self.font_family)
         self.stacked_widget.addWidget(self.tutorial_page)
 
-        self.freestyle_page = FreestylePage(self.stacked_widget)
+        self.freestyle_page = FreestylePage(self.stacked_widget, self.session_folder)
         self.stacked_widget.addWidget(self.freestyle_page)
 
         self.song_library_page = SongLibraryPage(self.stacked_widget)
@@ -171,5 +171,5 @@ class MainWindow(QMainWindow):
         self.buttons[index].setStyleSheet("background-color: yellow;")
 
     def closeEvent(self, event):
-        self.pot_reader.stop()
+        # self.pot_reader.stop()
         super().closeEvent(event)

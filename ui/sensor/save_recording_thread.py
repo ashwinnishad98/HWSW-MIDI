@@ -28,4 +28,4 @@ class SaveRecordingThread(QThread):
         wf.setframerate(sample_rate)
         wf.writeframes(self.recording.astype(np.int16).tobytes())
         wf.close()
-        print("Recording saved at {filepath}")
+        print(f"Recording saved at {filepath}")
