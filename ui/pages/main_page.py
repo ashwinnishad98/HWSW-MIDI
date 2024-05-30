@@ -1,3 +1,4 @@
+import spidev
 from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
 from pages.tutorial_page import TutorialPage
@@ -14,7 +15,6 @@ from PyQt5.QtWidgets import (
     QWidget,
 )
 from utils.utils import add_musical_notes
-import spidev
 
 # Setup SPI for MCP3008
 spi = spidev.SpiDev()
@@ -47,9 +47,10 @@ class PotentiometerReader(QThread):
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, font_family):
+    def __init__(self, font_family, session_folder):
         super().__init__()
         self.font_family = font_family
+        self.session_folder = session_folder
         self.setWindowTitle("Music App UI")
         self.setGeometry(100, 100, 300, 200)
         self.stacked_widget = QStackedWidget()

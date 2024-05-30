@@ -1,16 +1,25 @@
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
-                             QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QSizePolicy,
+    QSpacerItem,
+    QVBoxLayout,
+    QWidget,
+)
 
 from sensor.play_guitar import GuitarLesson  # Import GuitarLesson
 from sensor.save_recording_thread import SaveRecordingThread
 
 
 class GuitarPage(QWidget):
-    def __init__(self, parent, stacked_widget):
+    def __init__(self, parent, stacked_widget, session_folder):
         super().__init__(parent)
         self.parent = parent
+        self.session_folder = session_folder
         self.stacked_widget = stacked_widget
         self.initUI()
 
@@ -99,7 +108,7 @@ class GuitarPage(QWidget):
             self.guitar_lesson.start()
 
     def save_recording(self, recording):
-        self.save_thread = SaveRecordingThread(recording)
+        self.save_thread = SaveRecordingThread(recording, self.session_folder, "guitar")
         self.save_thread.start()
 
     def recording_finished(self):

@@ -1,8 +1,6 @@
 venv
 .DS_STORE
-ui/__pycache__
-ui/pages/__pycache__
-ui/utils/__pycache__/*.pyc
-sensor/__pycache__
-sensor/__pycache__/*.pyc
 ignore/app.py
+**/__pycache__/
+**/*.pyc
+**/venv/
