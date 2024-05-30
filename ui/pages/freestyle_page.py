@@ -66,11 +66,13 @@ class FreestylePage(QWidget):
 
         # Back button
         back_button_freestyle = QPushButton("Back")
+        back_button_freestyle.setFixedWidth(200)
         back_button_freestyle.clicked.connect(lambda: self.parent.setCurrentIndex(0))
         self.grid_layout.addWidget(
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
         print(self.session_folder)
+        
         # Check if there are files in the session folder and add the Songify button if files exist
         # if any(fname.endswith(".wav") for fname in os.listdir(self.session_folder)):
         songify_button = QPushButton("Songify!")
@@ -105,9 +107,9 @@ class FreestylePage(QWidget):
         self.parent.setCurrentWidget(self.hihat_page)
 
     def songify(self):
-        songify_thread = Songify(self.session_folder)
-        songify_thread.finished.connect(self.on_songify_finished)
-        songify_thread.start()
+        self.songify_thread = Songify(self.session_folder)
+        self.songify_thread.finished.connect(self.on_songify_finished)
+        self.songify_thread.start()
 
     def on_songify_finished(self):
         self.show_message("A Rockstar Made This!")
