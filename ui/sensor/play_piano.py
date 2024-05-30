@@ -6,8 +6,6 @@ import numpy as np
 import pygame
 import spidev
 from PyQt5.QtCore import QThread, pyqtSignal
-from .save_recording_thread import SaveRecordingThread
-
 
 # Initialize pygame mixer
 pygame.init()

@@ -2,8 +2,8 @@ import time
 
 import board
 import neopixel
+import numpy as np
 import pygame
-import RPi.GPIO as GPIO
 import spidev
 from PyQt5.QtCore import QThread, pyqtSignal
 
@@ -41,38 +41,83 @@ note_files = [
     "./sounds/hi-hat/6.wav",
 ]
 
+# Recording parameters
+sample_rate = 44100
+recording_duration = 10  # seconds
+
+
+def read_channel(channel):
+    adc = spi.xfer2([1, (8 + channel) << 4, 0])
+    data = ((adc[1] & 3) << 8) + adc[2]
+    return data
+
 
 class HiHatLesson(QThread):
-    progress = pyqtSignal(str)
+    finished = pyqtSignal()
+    recording_signal = pyqtSignal(np.ndarray)
 
-    def __init__(self):
+    def __init__(self, record=False):
         super().__init__()
+        self.record = record
         self.running = True
 
     def run(self):
+        if self.record:
+            self.record_hihat()
+        else:
+            self.play_hihat()
+
+    def play_hihat(self):
         while self.running:
-            for channel in range(6):
-                sensor_value = self.read_channel(channel)
+            for j in range(num_pixels):
+                sensor_value = read_channel(j)
                 if sensor_value > 800:  # Threshold for sensor press
-                    self.play_sound(channel)
-                    pixels[channel] = colors[channel]  # Turn the specific LED color
+                    pygame.mixer.Sound(note_files[j]).play()
+                    pixels[j] = colors[j]
                     pixels.show()
-                    time.sleep(0.1)  # LED feedback on sensor press
-                    pixels[channel] = (0, 0, 0)
+                    time.sleep(0.1)
+                    pixels[j] = (0, 0, 0)
                     pixels.show()
-                    while (
-                        self.read_channel(channel) > 800
-                    ):  # Debounce by waiting for release
-                        time.sleep(0.01)
+                    time.sleep(0.1)  # Debounce time
 
-    def read_channel(self, channel):
-        adc = spi.xfer2([1, (8 + channel) << 4, 0])
-        data = ((adc[1] & 3) << 8) + adc[2]
-        return data
+    def record_hihat(self):
+        print("Recording started.")
+        recording = np.zeros((recording_duration * sample_rate, 2))  # Stereo recording
 
-    def play_sound(self, channel):
-        sound = pygame.mixer.Sound(note_files[channel])
-        sound.play()
+        start_time = time.time()
+        current_index = 0
+
+        while time.time() - start_time < recording_duration:
+            if not self.running:
+                break
+
+            for j in range(num_pixels):
+                sensor_value = read_channel(j)
+                if sensor_value > 800:  # Threshold for sensor press
+                    sound = pygame.mixer.Sound(note_files[j])
+                    sound.play()
+                    pixels[j] = colors[j]
+                    pixels.show()
+                    time.sleep(0.1)
+                    pixels[j] = (0, 0, 0)
+                    pixels.show()
+
+                    # Capture the played sound
+                    sound_array = pygame.sndarray.array(sound)
+                    num_samples = len(sound_array)
+
+                    if current_index + num_samples < len(recording):
+                        recording[current_index : current_index + num_samples] = (
+                            sound_array[:num_samples]
+                        )
+                    else:
+                        break
+
+                    current_index += num_samples
+
+        print("Recording captured.")
+        self.recording_signal.emit(recording)
+        self.finished.emit()
 
     def stop(self):
         self.running = False

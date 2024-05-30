@@ -1,9 +1,11 @@
 import wave
+
 import numpy as np
 from PyQt5.QtCore import QThread
 
 # Recording parameters
 sample_rate = 44100
+
 
 class SaveRecordingThread(QThread):
     def __init__(self, recording):
