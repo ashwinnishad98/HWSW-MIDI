@@ -127,9 +127,9 @@ class MainWindow(QMainWindow):
         self.init_pages()
 
         # Initialize the potentiometer reader
-        self.pot_reader = PotentiometerReader()
-        self.pot_reader.potentiometer_value.connect(self.handle_potentiometer_input)
-        self.pot_reader.start()
+        # self.pot_reader = PotentiometerReader()
+        # self.pot_reader.potentiometer_value.connect(self.handle_potentiometer_input)
+        # self.pot_reader.start()
 
     def init_pages(self):
         self.tutorial_page = TutorialPage(self.stacked_widget, self.font_family)
