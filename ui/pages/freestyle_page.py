@@ -1,5 +1,5 @@
 import os
-from PyQt5.QtCore import QSize, Qt
+from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QLabel
 from utils.utils import add_musical_notes
@@ -127,6 +127,10 @@ class FreestylePage(QWidget):
         final_song_path = os.path.join(self.session_folder, "final.wav")
         pygame.mixer.music.load(final_song_path)
         pygame.mixer.music.play()
-        while pygame.mixer.music.get_busy():
-            pygame.time.Clock().tick(10)
-        self.parent.setCurrentWidget(self)
+        self.check_song_playing()
+
+    def check_song_playing(self):
+        if pygame.mixer.music.get_busy():
+            QTimer.singleShot(100, self.check_song_playing)
+        else:
+            self.parent.setCurrentWidget(self)
