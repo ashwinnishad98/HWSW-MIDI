@@ -121,10 +121,10 @@ class TutorialPage(QWidget):
 
         # Creating 4 tiles
         lessons_list = [
-            "Rhythm 1",
-            "Musical Simon Says",
-            "Rhythm 2",
-            "Song Follow Along",
+            "Rhythm Game",
+            "Twinkle Twinkle Little Star",
+            "Intensity Game",
+            "Mary Had a Little Lamb",
         ]
         positions = [(i, j) for i in range(2) for j in range(2)]
 

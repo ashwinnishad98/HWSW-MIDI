@@ -52,10 +52,10 @@ class HiHatPage(QWidget):
         button_layout = QHBoxLayout()
 
         # Record button
-        record_button = QPushButton("Record")
-        record_button.setFixedWidth(200)
-        record_button.clicked.connect(self.start_recording)
-        button_layout.addWidget(record_button)
+        self.record_button = QPushButton("Record")
+        self.record_button.setFixedWidth(200)
+        self.record_button.clicked.connect(self.start_recording)
+        button_layout.addWidget(self.record_button)
 
         # Back button
         back_button_hihat = QPushButton("Back")
