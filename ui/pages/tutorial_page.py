@@ -5,7 +5,7 @@ from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
                              QVBoxLayout, QWidget)
 from utils.utils import add_musical_notes
 
-from sensor.lesson_rhythm1 import RhythmLesson
+# from sensor.lesson_rhythm1 import RhythmLesson
 
 
 class TutorialPage(QWidget):
@@ -137,8 +137,8 @@ class TutorialPage(QWidget):
             layout.addWidget(label)
             button.setLayout(layout)
 
-            if lesson == "Rhythm 1":
-                button.clicked.connect(self.start_rhythm_1)
+            # if lesson == "Rhythm 1":
+            #     button.clicked.connect(self.start_rhythm_1)
 
             self.grid_layout.addWidget(button, *position)
 
@@ -190,12 +190,12 @@ class TutorialPage(QWidget):
             1000, self.execute_rhythm_lesson
         )  # Wait for 1 second before starting the lesson
 
-    def execute_rhythm_lesson(self):
-        self.rhythm_lesson = RhythmLesson("test_user")
-        self.rhythm_lesson.progress.connect(self.update_message)
-        self.rhythm_lesson.sequence_complete.connect(self.start_user_turn_countdown)
-        self.rhythm_lesson.score_signal.connect(self.display_score)
-        self.rhythm_lesson.start()
+    # def execute_rhythm_lesson(self):
+    #     self.rhythm_lesson = RhythmLesson("test_user")
+    #     self.rhythm_lesson.progress.connect(self.update_message)
+    #     self.rhythm_lesson.sequence_complete.connect(self.start_user_turn_countdown)
+    #     self.rhythm_lesson.score_signal.connect(self.display_score)
+    #     self.rhythm_lesson.start()
 
     def start_user_turn_countdown(self):
         self.start_countdown("Your turn! Starting in...", 3, self.start_user_turn)

@@ -15,18 +15,9 @@ from PyQt5.QtWidgets import (
 )
 from utils.utils import add_musical_notes
 import spidev
-
-# Setup SPI for MCP3008
-spi = spidev.SpiDev()
-spi.open(0, 0)
-spi.max_speed_hz = 1350000
-
-
-# Function to read from MCP3008
-def read_channel(channel):
-    adc = spi.xfer2([1, (8 + channel) << 4, 0])
-    data = ((adc[1] & 3) << 8) + adc[2]
-    return data
+import Adafruit_GPIO.SPI as SPI
+import Adafruit_MCP3008
+import time
 
 
 class PotentiometerReader(QThread):
@@ -35,15 +26,37 @@ class PotentiometerReader(QThread):
     def __init__(self):
         super().__init__()
         self.running = True
+        self.mcp = Adafruit_MCP3008.MCP3008(spi=SPI.SpiDev(0, 0))
+        self.channel = 1
+        self.smoothing_factor = 5
+        self.stability_threshold = 5
+        self.confirm_threshold = 900
+        self.debounce_time = 0.5
+        self.last_confirm_time = 0
+        self.potentiometer_values = []
+
+    def get_smoothed_value(self):
+        values = [self.mcp.read_adc(self.channel) for _ in range(self.smoothing_factor)]
+        return sum(values) // len(values)
 
     def run(self):
         while self.running:
-            value = read_channel(0)  # Read the potentiometer value from CH0
-            self.potentiometer_value.emit(value)
-            self.msleep(100)  # Read every 100ms
+            value = self.get_smoothed_value()
+            self.potentiometer_values.append(value)
+            if len(self.potentiometer_values) > self.stability_threshold:
+                self.potentiometer_values.pop(0)
+
+            if len(set(self.potentiometer_values)) == 1 and value > self.confirm_threshold and (time.time() - self.last_confirm_time > self.debounce_time):
+                self.last_confirm_time = time.time()
+                self.potentiometer_value.emit(value)
+            else:
+                self.potentiometer_value.emit(value)
+
+            time.sleep(0.1)
 
     def stop(self):
         self.running = False
+
 
 
 class MainWindow(QMainWindow):
@@ -56,13 +69,16 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(self.stacked_widget)
         self.initUI()
 
+        self.potentiometer_reader = PotentiometerReader()
+        self.potentiometer_reader.potentiometer_value.connect(self.handle_potentiometer_input)
+        self.potentiometer_reader.start()
+
     def initUI(self):
         """
         ------------------------------------------------
         Main Menu Page with musical notes on the sides
         ------------------------------------------------
         """
-        self.potentiometer_value = 0
 
         main_layout = QHBoxLayout()
 
@@ -90,13 +106,13 @@ class MainWindow(QMainWindow):
 
         # Add the buttons to the central layout
         button_texts = ["View Tutorials", "Freestyle", "Song Library"]
-        buttons = []
+        self.buttons = []
 
         for i, text in enumerate(button_texts):
             button = QPushButton(text)
             button.setFixedHeight(45)  # Fixed height for all buttons
             menu_layout.addWidget(button)
-            buttons.append(button)
+            self.buttons.append(button)
             menu_layout.setAlignment(button, Qt.AlignCenter)  # Center align the button
             if (
                 i < len(button_texts) - 1
@@ -119,16 +135,11 @@ class MainWindow(QMainWindow):
         # self.setCentralWidget(central_widget)
 
         # Connect signals to slots for buttons
-        buttons[0].clicked.connect(self.show_tutorials)
-        buttons[1].clicked.connect(self.show_freestyle)
-        buttons[2].clicked.connect(self.show_song_library)
+        self.buttons[0].clicked.connect(self.show_tutorials)
+        self.buttons[1].clicked.connect(self.show_freestyle)
+        self.buttons[2].clicked.connect(self.show_song_library)
 
         self.init_pages()
-
-        # Initialize the potentiometer reader
-        self.pot_reader = PotentiometerReader()
-        self.pot_reader.potentiometer_value.connect(self.handle_potentiometer_input)
-        self.pot_reader.start()
 
     def init_pages(self):
         self.tutorial_page = TutorialPage(self.stacked_widget, self.font_family)
@@ -150,25 +161,21 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentWidget(self.freestyle_page)
 
     def handle_potentiometer_input(self, value):
-        # Normalize the potentiometer value to a range, e.g., 0-100
-        normalized_value = int((value / 1023.0) * 100)
+        num_buttons = len(self.buttons)
+        print(value)
+        normalized_value = int((value / 1200.0) * num_buttons)
+        print(f"Normalized Value: {normalized_value}")  # Print normalized value for debugging
 
-        # Determine which button to highlight based on the normalized value
-        if normalized_value < 33:
-            self.highlight_button(0)
-        elif normalized_value < 66:
-            self.highlight_button(1)
-        else:
-            self.highlight_button(2)
+        selected_index = min(normalized_value, num_buttons - 1)  # Ensure index is within bounds
 
-    def highlight_button(self, index):
-        # Reset all buttons to default style
-        for button in self.buttons:
-            button.setStyleSheet("")
 
-        # Highlight the selected button
-        self.buttons[index].setStyleSheet("background-color: yellow;")
+        for i, button in enumerate(self.buttons):
+            if i == selected_index:
+                button.setStyleSheet("background-color: blue; font-size: 18px; font-family: {self.font_family}; color: black;")
+            else:
+                button.setStyleSheet("background-color: none; font-size: 14px; font-family: {self.font_family}; color: white;")
 
     def closeEvent(self, event):
-        self.pot_reader.stop()
-        super().closeEvent(event)
+        self.potentiometer_reader.stop()
+        self.potentiometer_reader.wait()
+        event.accept()
