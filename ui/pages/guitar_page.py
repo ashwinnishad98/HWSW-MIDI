@@ -24,25 +24,25 @@ class GuitarPage(QWidget):
         self.initUI()
 
     def initUI(self):
-        guitar_layout = QVBoxLayout(self)
+        self.guitar_layout = QVBoxLayout(self)
         self.grid_layout = QGridLayout()
 
         # Add the grid layout to the guitar layout
-        guitar_layout.addLayout(self.grid_layout)
+        self.guitar_layout.addLayout(self.grid_layout)
 
         top_spacer = QSpacerItem(20, 170, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        guitar_layout.addItem(top_spacer)
+        self.guitar_layout.addItem(top_spacer)
 
         # Display the guitar image
         guitar_label = QLabel()
         pixmap = QPixmap("./assets/guitar.png").scaled(180, 180, Qt.KeepAspectRatio)
         guitar_label.setPixmap(pixmap)
         guitar_label.setAlignment(Qt.AlignCenter)
-        guitar_layout.addWidget(guitar_label, alignment=Qt.AlignCenter)
+        self.guitar_layout.addWidget(guitar_label, alignment=Qt.AlignCenter)
 
         # Add a spacer item to push the button to the bottom
         spacer = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        guitar_layout.addItem(spacer)
+        self.guitar_layout.addItem(spacer)
 
         # Start the guitar lesson when the page is displayed
         self.guitar_lesson = GuitarLesson()
@@ -52,10 +52,10 @@ class GuitarPage(QWidget):
         button_layout = QHBoxLayout()
 
         # Record button
-        record_button = QPushButton("Record")
-        record_button.setFixedWidth(200)
-        record_button.clicked.connect(self.start_recording)
-        button_layout.addWidget(record_button)
+        self.record_button = QPushButton("Record")
+        self.record_button.setFixedWidth(200)
+        self.record_button.clicked.connect(self.start_recording)
+        button_layout.addWidget(self.record_button)
 
         # Back button
         back_button_guitar = QPushButton("Back")
@@ -64,7 +64,7 @@ class GuitarPage(QWidget):
         button_layout.addWidget(back_button_guitar)
 
         button_layout.setAlignment(Qt.AlignCenter)
-        guitar_layout.addLayout(button_layout)
+        self.guitar_layout.addLayout(button_layout)
 
         # Countdown labels
         self.countdown_label = QLabel("")
@@ -78,7 +78,7 @@ class GuitarPage(QWidget):
         self.guitar_layout.addWidget(self.number_label, alignment=Qt.AlignCenter)
 
         # Set the layout
-        self.setLayout(guitar_layout)
+        self.setLayout(self.guitar_layout)
 
         self.guitar_lesson = GuitarLesson(record=False)
         self.guitar_lesson.start()

@@ -9,7 +9,7 @@ from .guitar_page import GuitarPage
 from .hihat_page import HiHatPage
 from .kick_page import KickPage
 from .piano_page import PianoPage
-from songify import Songify  # Import the Songify class
+from .songify import Songify  # Import the Songify class
 
 
 class FreestylePage(QWidget):
@@ -70,15 +70,15 @@ class FreestylePage(QWidget):
         self.grid_layout.addWidget(
             back_button_freestyle, 2, 0, 1, 2
         )  # Spanning the back button across the grid
-
+        print(self.session_folder)
         # Check if there are files in the session folder and add the Songify button if files exist
-        if any(fname.endswith(".wav") for fname in os.listdir(self.session_folder)):
-            songify_button = QPushButton("Songify!")
-            songify_button.setFixedWidth(200)
-            songify_button.clicked.connect(self.songify)
-            self.grid_layout.addWidget(
-                songify_button, 2, 1, 1, 1
-            )  # Position the songify button
+        # if any(fname.endswith(".wav") for fname in os.listdir(self.session_folder)):
+        songify_button = QPushButton("Songify!")
+        songify_button.setFixedWidth(200)
+        songify_button.clicked.connect(self.songify)
+        self.grid_layout.addWidget(
+            songify_button, 2, 1, 2, 2
+        )  # Position the songify button
 
         freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
