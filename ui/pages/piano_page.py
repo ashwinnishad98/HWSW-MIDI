@@ -22,8 +22,8 @@ class PianoPage(QWidget):
         # Add the grid layout to the piano layout
         self.piano_layout.addLayout(self.grid_layout)
 
-        top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.piano_layout.addItem(top_spacer)
+        # top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # self.piano_layout.addItem(top_spacer)
 
         # Display the piano image
         piano_label = QLabel()
