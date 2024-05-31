@@ -35,10 +35,13 @@ class SongLibraryPage(QWidget):
         # Back button
         back_button_song = QPushButton("Back")
         back_button_song.setFixedSize(200, 50)
-        back_button_song.clicked.connect(lambda: self.parent().setCurrentIndex(0))
+        back_button_song.clicked.connect(self.go_back)
         grid_layout.addWidget(back_button_song, 2, 0, 1, 2)
 
         song_lib_layout.addLayout(grid_layout)
         add_musical_notes(song_lib_layout)
 
         self.setLayout(song_lib_layout)
+        
+    def go_back(self):
+        self.parent.setCurrentIndex(0)
