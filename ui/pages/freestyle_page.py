@@ -3,7 +3,14 @@ import os
 import pygame
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QLabel, QPushButton, QWidget, QVBoxLayout
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QWidget,
+    QVBoxLayout,
+)
 from utils.utils import add_musical_notes
 
 from .guitar_page import GuitarPage
@@ -21,10 +28,12 @@ class FreestylePage(QWidget):
         self.initUI()
 
     def initUI(self):
-        freestyle_layout = QVBoxLayout(self)
+        main_layout = QHBoxLayout(self)
 
         # Add musical notes to the freestyle layout
-        add_musical_notes(freestyle_layout)
+        add_musical_notes(main_layout)
+
+        central_layout = QVBoxLayout()
 
         self.grid_layout = QGridLayout()
 
@@ -64,8 +73,8 @@ class FreestylePage(QWidget):
                 button.clicked.connect(self.show_kick_page)
             elif name == "Hi-hat":
                 button.clicked.connect(self.show_hihat_page)
-                
-            freestyle_layout.addLayout(self.grid_layout)
+
+            central_layout.addLayout(self.grid_layout)
 
         button_layout = QHBoxLayout()
 
@@ -83,10 +92,12 @@ class FreestylePage(QWidget):
         button_layout.addWidget(songify_button)
 
         button_layout.setAlignment(Qt.AlignCenter)
-        freestyle_layout.addLayout(button_layout)
+        central_layout.addLayout(button_layout)
 
-        add_musical_notes(freestyle_layout)
-        self.setLayout(freestyle_layout)
+        main_layout.addLayout(central_layout)
+
+        add_musical_notes(main_layout)
+        self.setLayout(main_layout)
 
     def show_piano_page(self):
         self.piano_page = PianoPage(self, self.parent, self.session_folder)
