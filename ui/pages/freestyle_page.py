@@ -3,7 +3,7 @@ import os
 import pygame
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QLabel, QPushButton, QWidget
+from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QLabel, QPushButton, QWidget, QVBoxLayout
 from utils.utils import add_musical_notes
 
 from .guitar_page import GuitarPage
@@ -21,7 +21,7 @@ class FreestylePage(QWidget):
         self.initUI()
 
     def initUI(self):
-        freestyle_layout = QHBoxLayout(self)
+        freestyle_layout = QVBoxLayout(self)
 
         # Add musical notes to the freestyle layout
         add_musical_notes(freestyle_layout)
