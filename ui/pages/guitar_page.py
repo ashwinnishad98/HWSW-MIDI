@@ -22,7 +22,7 @@ class GuitarPage(QWidget):
         # Add the grid layout to the guitar layout
         self.guitar_layout.addLayout(self.grid_layout)
 
-        top_spacer = QSpacerItem(20, 170, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.guitar_layout.addItem(top_spacer)
 
         # Display the guitar image
@@ -31,9 +31,20 @@ class GuitarPage(QWidget):
         guitar_label.setPixmap(pixmap)
         guitar_label.setAlignment(Qt.AlignCenter)
         self.guitar_layout.addWidget(guitar_label, alignment=Qt.AlignCenter)
+        
+        # Countdown labels
+        self.countdown_label = QLabel("")
+        self.countdown_label.setAlignment(Qt.AlignCenter)
+        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
+        self.guitar_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
+
+        self.number_label = QLabel("")
+        self.number_label.setAlignment(Qt.AlignCenter)
+        self.number_label.setStyleSheet("font-size: 48px; color: white;")
+        self.guitar_layout.addWidget(self.number_label, alignment=Qt.AlignCenter)
 
         # Add a spacer item to push the button to the bottom
-        spacer = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        spacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.guitar_layout.addItem(spacer)
 
         # Start the guitar lesson when the page is displayed
@@ -57,17 +68,9 @@ class GuitarPage(QWidget):
 
         button_layout.setAlignment(Qt.AlignCenter)
         self.guitar_layout.addLayout(button_layout)
-
-        # Countdown labels
-        self.countdown_label = QLabel("")
-        self.countdown_label.setAlignment(Qt.AlignCenter)
-        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
-        self.guitar_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
-
-        self.number_label = QLabel("")
-        self.number_label.setAlignment(Qt.AlignCenter)
-        self.number_label.setStyleSheet("font-size: 48px; color: white;")
-        self.guitar_layout.addWidget(self.number_label, alignment=Qt.AlignCenter)
+        
+        bottom_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.guitar_layout.addItem(bottom_spacer)
 
         # Set the layout
         self.setLayout(self.guitar_layout)
@@ -79,7 +82,7 @@ class GuitarPage(QWidget):
         self.record_button.setDisabled(True)
         self.countdown_label = QLabel("Starting in...")
         self.countdown_label.setAlignment(Qt.AlignCenter)
-        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
+        self.countdown_label.setStyleSheet("font-size: 24px; color: white;")
         self.guitar_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
 
         self.countdown_value = 3
