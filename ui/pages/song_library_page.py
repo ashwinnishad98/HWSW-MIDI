@@ -18,10 +18,13 @@ class SongLibraryPage(QWidget):
         self.initUI()
 
     def initUI(self):
-        song_lib_layout = QVBoxLayout(self)
+        
+        main_layout = QHBoxLayout(self)
 
         # Add musical notes to the song library layout
-        add_musical_notes(song_lib_layout)
+        add_musical_notes(main_layout)
+        
+        central_layout = QVBoxLayout()
 
         grid_layout = QGridLayout()
 
@@ -31,6 +34,9 @@ class SongLibraryPage(QWidget):
         for tile, position in zip(tiles, positions):
             tile.setFixedSize(140, 80)  # Making each tile a square
             grid_layout.addWidget(tile, *position)
+            
+        central_layout.addLayout(grid_layout)
+        
 
         button_layout = QHBoxLayout()
         
@@ -41,13 +47,13 @@ class SongLibraryPage(QWidget):
         button_layout.addWidget(back_button_song)
         
         button_layout.setAlignment(Qt.AlignCenter)
+        central_layout.addLayout(button_layout)
         
+        main_layout.addLayout(central_layout)
 
-        song_lib_layout.addLayout(grid_layout)
-        song_lib_layout.addLayout(button_layout)
-        add_musical_notes(song_lib_layout)
+        add_musical_notes(main_layout)
 
-        self.setLayout(song_lib_layout)
+        self.setLayout(main_layout)
         
     def go_back(self):
         self.parent.setCurrentIndex(0)
