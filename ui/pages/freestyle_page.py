@@ -78,7 +78,6 @@ class FreestylePage(QWidget):
         songify_button = QPushButton("Songify!")
         songify_button.setFixedWidth(200)
         songify_button.clicked.connect(self.songify)
-        self.grid_layout.addWidget(songify_button)
         button_layout.addWidget(songify_button)
 
         button_layout.setAlignment(Qt.AlignCenter)
