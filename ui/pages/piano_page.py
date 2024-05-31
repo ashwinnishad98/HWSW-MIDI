@@ -31,6 +31,17 @@ class PianoPage(QWidget):
         piano_label.setPixmap(pixmap)
         piano_label.setAlignment(Qt.AlignCenter)
         self.piano_layout.addWidget(piano_label, alignment=Qt.AlignCenter)
+        
+        # Countdown labels
+        self.countdown_label = QLabel("")
+        self.countdown_label.setAlignment(Qt.AlignCenter)
+        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
+        self.piano_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
+
+        self.number_label = QLabel("")
+        self.number_label.setAlignment(Qt.AlignCenter)
+        self.number_label.setStyleSheet("font-size: 48px; color: white;")
+        self.piano_layout.addWidget(self.number_label, alignment=Qt.AlignCenter)
 
         # Add a spacer item to push the button to the bottom
         spacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
@@ -57,17 +68,6 @@ class PianoPage(QWidget):
         bottom_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.piano_layout.addItem(bottom_spacer)
 
-        # Countdown labels
-        self.countdown_label = QLabel("")
-        self.countdown_label.setAlignment(Qt.AlignCenter)
-        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
-        self.piano_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
-
-        self.number_label = QLabel("")
-        self.number_label.setAlignment(Qt.AlignCenter)
-        self.number_label.setStyleSheet("font-size: 48px; color: white;")
-        self.piano_layout.addWidget(self.number_label, alignment=Qt.AlignCenter)
-
         # Set the layout
         self.setLayout(self.piano_layout)
 
@@ -77,10 +77,10 @@ class PianoPage(QWidget):
 
     def start_recording(self):
         self.record_button.setDisabled(True)
-        self.countdown_label = QLabel("Starting in...")
+        self.countdown_label.setText("Starting in...")
         self.countdown_label.setAlignment(Qt.AlignCenter)
         self.countdown_label.setStyleSheet("font-size: 20px; color: white;")
-        self.piano_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
+        # self.piano_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
 
         self.countdown_value = 3
         self.timer = QTimer()
