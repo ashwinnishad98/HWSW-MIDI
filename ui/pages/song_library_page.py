@@ -1,6 +1,12 @@
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
-                             QVBoxLayout, QWidget)
+from PyQt5.QtWidgets import (
+    QGridLayout,
+    QHBoxLayout,
+    QLabel,
+    QPushButton,
+    QVBoxLayout,
+    QWidget,
+)
 
 from utils.utils import add_musical_notes
 
@@ -30,11 +36,9 @@ class SongLibraryPage(QWidget):
         back_button_song = QPushButton("Back")
         back_button_song.setFixedSize(200, 50)
         back_button_song.clicked.connect(lambda: self.parent().setCurrentIndex(0))
-        grid_layout.addWidget(
-            back_button_song, alignment=Qt.AlignCenter | Qt.AlignBottom
-        )
+        grid_layout.addWidget(back_button_song, 2, 0, 1, 3)
 
         song_lib_layout.addLayout(grid_layout)
         add_musical_notes(song_lib_layout)
-        
+
         self.setLayout(song_lib_layout)
