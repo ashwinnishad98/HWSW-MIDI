@@ -81,7 +81,7 @@ class FreestylePage(QWidget):
         button_layout.addWidget(songify_button)
 
         button_layout.setAlignment(Qt.AlignCenter)
-        self.grid_layout.addLayout(button_layout)
+        freestyle_layout.addLayout(button_layout)
 
         freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
