@@ -75,6 +75,7 @@ class MainWindow(QMainWindow):
 
         # Add the title label to the central layout
         self.title_label = QLabel()
+        self.title_label.setTextFormat(Qt.RichText)
         # self.title_label.setStyleSheet(
         #     f"""
         #     color: #fff37b;
@@ -86,10 +87,10 @@ class MainWindow(QMainWindow):
         # )
         self.title_label.setText(
             f"""
-            <span style="color:#ff6fa4; display:inline;">r</span>
-            <span style="color:#00c7fe; display:inline;">AI</span>
-            <span style="color:#d6e984; display:inline;">th</span>
-            <span style="color:#ff9171; display:inline;">ym</span>
+            <span style="color:#ff6fa4;">r</span>
+            <span style="color:#00c7fe;">AI</span>
+            <span style="color:#d6e984;">th</span>
+            <span style="color:#ff9171;">ym</span>
             """
         )
         self.title_label.setStyleSheet(
