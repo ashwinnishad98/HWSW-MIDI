@@ -22,7 +22,7 @@ class PianoPage(QWidget):
         # Add the grid layout to the piano layout
         self.piano_layout.addLayout(self.grid_layout)
 
-        top_spacer = QSpacerItem(20, 100, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.piano_layout.addItem(top_spacer)
 
         # Display the piano image
@@ -33,8 +33,8 @@ class PianoPage(QWidget):
         self.piano_layout.addWidget(piano_label, alignment=Qt.AlignCenter)
 
         # Add a spacer item to push the button to the bottom
-        spacer = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        self.piano_layout.addItem(spacer)
+        # spacer = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        # self.piano_layout.addItem(spacer)
 
         # Button layout for Back and Record buttons
         button_layout = QHBoxLayout()
