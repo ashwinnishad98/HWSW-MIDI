@@ -1,4 +1,10 @@
 PyQt5
 black
 isort
-dearpygui
+pygame
+numpy
+wave
+firebase-admin
+board
+time
+spidev
