@@ -86,13 +86,12 @@ class MainWindow(QMainWindow):
         #     """
         # )
         self.title_label.setText(
-            f"""
-            <span style="color:#ff6fa4;">r</span>
-            <span style="color:#00c7fe;">AI</span>
-            <span style="color:#d6e984;">th</span>
-            <span style="color:#ff9171;">ym</span>
-            """
+            '<span style="color:#ff6fa4;">r</span>'
+            '<span style="color:#00c7fe;">AI</span>'
+            '<span style="color:#d6e984;">th</span>'
+            '<span style="color:#ff9171;">ym</span>'
         )
+        
         self.title_label.setStyleSheet(
             f"""
             font-size: 82px;
