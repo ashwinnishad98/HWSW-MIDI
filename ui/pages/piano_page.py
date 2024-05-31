@@ -65,7 +65,7 @@ class PianoPage(QWidget):
         button_layout.setAlignment(Qt.AlignCenter)
         self.piano_layout.addLayout(button_layout)
         
-        bottom_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        bottom_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         self.piano_layout.addItem(bottom_spacer)
 
         # Set the layout
