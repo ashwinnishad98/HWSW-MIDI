@@ -32,11 +32,16 @@ class SongLibraryPage(QWidget):
             tile.setFixedSize(140, 80)  # Making each tile a square
             grid_layout.addWidget(tile, *position)
 
+        button_layout = QHBoxLayout()
+        
         # Back button
         back_button_song = QPushButton("Back")
         back_button_song.setFixedSize(200, 50)
         back_button_song.clicked.connect(self.go_back)
-        grid_layout.addWidget(back_button_song, 2, 0, 1, 2)
+        button_layout.addWidget(back_button_song)
+        
+        button_layout.setAlignment(Qt.AlignCenter)
+        grid_layout.addLayout(button_layout)
 
         song_lib_layout.addLayout(grid_layout)
         add_musical_notes(song_lib_layout)
