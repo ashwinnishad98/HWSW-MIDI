@@ -74,16 +74,33 @@ class MainWindow(QMainWindow):
         menu_layout.addStretch(1)
 
         # Add the title label to the central layout
-        self.title_label = QLabel("rAIthym")
+        self.title_label = QLabel()
+        # self.title_label.setStyleSheet(
+        #     f"""
+        #     color: #fff37b;
+        #     font-size: 82px;
+        #     font-family: '{self.font_family}';
+        #     qproperty-alignment: AlignCenter;
+        #     padding-bottom: 100px;
+        #     """
+        # )
+        self.title_label.setText(
+            f"""
+            <span style="color:#ff6fa4;">r</span>
+            <span style="color:#00c7fe;">AI</span>
+            <span style="color:#d6e984;">th</span>
+            <span style="color:#ff9171;">ym</span>
+            """
+        )
         self.title_label.setStyleSheet(
             f"""
-            color: #fff37b;
             font-size: 82px;
             font-family: '{self.font_family}';
             qproperty-alignment: AlignCenter;
             padding-bottom: 100px;
             """
         )
+        self.title_label.setAlignment(Qt.AlignCenter)
         menu_layout.addWidget(self.title_label)
 
         # Add the buttons to the central layout
