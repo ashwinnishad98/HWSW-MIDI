@@ -10,6 +10,8 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QWidget,
     QVBoxLayout,
+    QSpacerItem,
+    QSizePolicy,
 )
 from utils.utils import add_musical_notes
 
@@ -46,7 +48,10 @@ class FreestylePage(QWidget):
             "Kick Drum": "./assets/kick.png",
             "Hi-hat": "./assets/hi-hat.png",
         }
-
+        
+        top_spacer = QSpacerItem(20, 170, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        main_layout.addItem(top_spacer)
+        
         # Create buttons with icons
         for i, name in enumerate(option_names):
             button = QPushButton(name)
