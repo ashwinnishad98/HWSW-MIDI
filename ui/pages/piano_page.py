@@ -76,7 +76,7 @@ class PianoPage(QWidget):
         self.record_button.setDisabled(True)
         self.countdown_label = QLabel("Starting in...")
         self.countdown_label.setAlignment(Qt.AlignCenter)
-        self.countdown_label.setStyleSheet("font-size: 36px; color: white;")
+        self.countdown_label.setStyleSheet("font-size: 20px; color: white;")
         self.piano_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
 
         self.countdown_value = 3
