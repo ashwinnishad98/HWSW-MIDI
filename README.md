@@ -18,7 +18,7 @@ Our solution is a child-friendly MIDI controller with a simplistic user interfac
 ![Hardware Architecture](Hardware_Architecture.png)
 
 ## Images of the UI
-![Start Screen](start_screen.jpeg)
+![Start Screen](start_screen.png)
 
 ![Tutorial](starting_in.png)
 
