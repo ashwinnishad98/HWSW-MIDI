@@ -80,10 +80,10 @@ class GuitarPage(QWidget):
 
     def start_recording(self):
         self.record_button.setDisabled(True)
-        self.countdown_label = QLabel("Starting in...")
+        self.countdown_label.setText("Starting in...")
         self.countdown_label.setAlignment(Qt.AlignCenter)
         self.countdown_label.setStyleSheet("font-size: 24px; color: white;")
-        self.guitar_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
+        # self.guitar_layout.addWidget(self.countdown_label, alignment=Qt.AlignCenter)
 
         self.countdown_value = 3
         self.timer = QTimer()
@@ -96,7 +96,7 @@ class GuitarPage(QWidget):
             self.countdown_value -= 1
         else:
             self.timer.stop()
-            self.countdown_label.setText("Recording...")
+            self.countdown_label.setText("Recording...  You have 10 seconds!")
             self.guitar_lesson.stop()
             self.guitar_lesson = GuitarLesson(record=True)
             self.guitar_lesson.recording_signal.connect(self.save_recording)
@@ -112,7 +112,7 @@ class GuitarPage(QWidget):
         QTimer.singleShot(2000, self.reset_ui)  # Show message for 2 seconds
 
     def reset_ui(self):
-        self.countdown_label.deleteLater()
+        self.countdown_label.clear()
         self.record_button.setDisabled(False)
 
     def go_back_to_freestyle(self):
