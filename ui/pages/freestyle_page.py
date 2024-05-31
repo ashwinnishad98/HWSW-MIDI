@@ -6,7 +6,6 @@ from PyQt5.QtGui import QIcon, QPixmap
 from PyQt5.QtWidgets import (
     QGridLayout,
     QHBoxLayout,
-    QLabel,
     QPushButton,
     QWidget,
     QVBoxLayout,
@@ -20,6 +19,7 @@ from .hihat_page import HiHatPage
 from .kick_page import KickPage
 from .piano_page import PianoPage
 from .songify import Songify  # Import the Songify class
+from .songify_page import SongifyPage
 
 
 class FreestylePage(QWidget):
@@ -148,16 +148,13 @@ class FreestylePage(QWidget):
         self.songify_thread.start()
 
     def on_songify_finished(self):
-        self.show_message("A Rockstar Made This!")
+        self.show_message_page("Wow! This is amazing!")
         self.play_final_song()
 
-    def show_message(self, message):
-        self.message_label = QLabel(message)
-        self.message_label.setAlignment(Qt.AlignCenter)
-        self.message_label.setStyleSheet("font-size: 24px; color: white;")
-        self.grid_layout.addWidget(
-            self.message_label, 3, 0, 1, 2
-        )  # Position the message label
+    def show_message_page(self, message):
+        self.message_page = SongifyPage(self.parent, message)
+        self.parent.addWidget(self.message_page)
+        self.parent.setCurrentWidget(self.message_page)
 
     def play_final_song(self):
         final_song_path = os.path.join(self.session_folder, "final.wav")
@@ -169,8 +166,8 @@ class FreestylePage(QWidget):
         if pygame.mixer.music.get_busy():
             QTimer.singleShot(100, self.check_song_playing)
         else:
-            self.message_label.clear()
             self.parent.setCurrentWidget(self)
+            self.message_page.deleteLater()
 
     def go_back(self):
         self.stop_current_lesson()
