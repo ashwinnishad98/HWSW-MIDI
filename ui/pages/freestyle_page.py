@@ -64,6 +64,8 @@ class FreestylePage(QWidget):
                 button.clicked.connect(self.show_kick_page)
             elif name == "Hi-hat":
                 button.clicked.connect(self.show_hihat_page)
+                
+            freestyle_layout.addLayout(self.grid_layout)
 
         button_layout = QHBoxLayout()
 
@@ -83,7 +85,6 @@ class FreestylePage(QWidget):
         button_layout.setAlignment(Qt.AlignCenter)
         freestyle_layout.addLayout(button_layout)
 
-        freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)
         self.setLayout(freestyle_layout)
 
