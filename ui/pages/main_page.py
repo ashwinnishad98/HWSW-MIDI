@@ -146,7 +146,7 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentWidget(self.freestyle_page)
 
     def show_song_library(self):
-        self.stacked_widget.setCurrentWidget(self.freestyle_page)
+        self.stacked_widget.setCurrentWidget(self.song_library_page)
 
     def handle_potentiometer_input(self, value):
         # Normalize the potentiometer value to a range, e.g., 0-100
