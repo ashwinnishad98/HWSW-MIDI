@@ -29,7 +29,7 @@ class SongLibraryPage(QWidget):
         tiles = [QPushButton(f"Song {i+1}") for i in range(6)]
         positions = [(i // 3, i % 3) for i in range(6)]  # 2 rows, 3 columns
         for tile, position in zip(tiles, positions):
-            tile.setFixedSize(80, 140)  # Making each tile a square
+            tile.setFixedSize(140, 80)  # Making each tile a square
             grid_layout.addWidget(tile, *position)
 
         # Back button
