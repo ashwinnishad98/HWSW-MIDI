@@ -50,7 +50,7 @@ class TutorialPage(QWidget):
 
         # Top spacer
         self.countdown_layout.addItem(
-            QSpacerItem(20, 110, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         )
 
         # Create countdown labels
@@ -78,14 +78,14 @@ class TutorialPage(QWidget):
 
         # Bottom spacer
         self.countdown_layout.addItem(
-            QSpacerItem(20, 110, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         )
 
         self.countdown_page_layout.addLayout(self.countdown_layout)
 
         # Add spacer to push the back button to the bottom
         self.countdown_page_layout.addItem(
-            QSpacerItem(20, 110, QSizePolicy.Minimum, QSizePolicy.Expanding)
+            QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
         )
 
         # Add back button to the countdown layout
