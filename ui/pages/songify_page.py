@@ -1,15 +1,15 @@
 import os
 import time
 
-import firebase_admin
-from firebase_admin import credentials, storage
+# import firebase_admin
+# from firebase_admin import credentials, storage
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import (QHBoxLayout, QLabel, QPushButton, QVBoxLayout,
                              QWidget)
 
 # Initialize Firebase
-cred = credentials.Certificate("ui/firebasepvt.json")
-firebase_admin.initialize_app(cred, {"storageBucket": "gs://hwsw2-e6856.appspot.com"})
+# cred = credentials.Certificate("ui/firebasepvt.json")
+# firebase_admin.initialize_app(cred, {"storageBucket": "gs://hwsw2-e6856.appspot.com"})
 
 
 class SongifyPage(QWidget):
@@ -54,19 +54,19 @@ class SongifyPage(QWidget):
     def save_song(self):
         # Upload the final.wav file to Firebase
         final_song_path = os.path.join(self.session_folder, "final.wav")
-        self.upload_to_firebase(final_song_path)
+        # self.upload_to_firebase(final_song_path)
 
         # Display message and go back to FreestylePage after 3 seconds
         self.message_label.setText("Your song is saved!")
         QTimer.singleShot(3000, self.go_back)
 
-    def upload_to_firebase(self, file_path):
-        # Generate a unique filename with a timestamp
-        timestamp = int(time.time())
-        unique_filename = f"final_{timestamp}.wav"
+    # def upload_to_firebase(self, file_path):
+    #     # Generate a unique filename with a timestamp
+    #     timestamp = int(time.time())
+    #     unique_filename = f"final_{timestamp}.wav"
 
-        # Upload file to Firebase Storage
-        bucket = storage.bucket()
-        blob = bucket.blob(unique_filename)
-        blob.upload_from_filename(file_path)
-        print(f"File {file_path} uploaded to Firebase Storage as {unique_filename}.")
+    #     # Upload file to Firebase Storage
+    #     bucket = storage.bucket()
+    #     blob = bucket.blob(unique_filename)
+    #     blob.upload_from_filename(file_path)
+    #     print(f"File {file_path} uploaded to Firebase Storage as {unique_filename}.")
