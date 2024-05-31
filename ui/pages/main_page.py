@@ -68,7 +68,6 @@ class MainWindow(QMainWindow):
         # Add musical notes to the main layout
         add_musical_notes(main_layout)
 
-        self.setGeometry(80, 10, 900, 600)
 
         # Create the central vertical layout for the buttons
         menu_layout = QVBoxLayout()
