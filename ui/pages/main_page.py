@@ -49,7 +49,7 @@ class MainWindow(QMainWindow):
         self.font_family = font_family
         self.session_folder = session_folder
         self.setWindowTitle("Music App UI")
-        self.setGeometry(100, 100, 300, 200)
+        self.setGeometry(0, 0, 800, 480)
         self.stacked_widget = QStackedWidget()
         self.setCentralWidget(self.stacked_widget)
         pygame.mixer.init()  # Initialize pygame mixer
