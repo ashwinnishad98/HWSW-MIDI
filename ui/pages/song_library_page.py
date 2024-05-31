@@ -18,7 +18,7 @@ class SongLibraryPage(QWidget):
         self.initUI()
 
     def initUI(self):
-        song_lib_layout = QHBoxLayout(self)
+        song_lib_layout = QVBoxLayout(self)
 
         # Add musical notes to the song library layout
         add_musical_notes(song_lib_layout)
