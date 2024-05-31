@@ -148,7 +148,7 @@ class FreestylePage(QWidget):
         self.songify_thread.start()
 
     def on_songify_finished(self):
-        self.show_message_page("Wow! This is amazing!")
+        self.show_message_page("Wow! You're a rockstar!")
         self.play_final_song()
 
     def show_message_page(self, message):
