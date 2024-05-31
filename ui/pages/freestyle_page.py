@@ -49,7 +49,7 @@ class FreestylePage(QWidget):
             "Hi-hat": "./assets/hi-hat.png",
         }
         
-        top_spacer = QSpacerItem(20, 170, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        top_spacer = QSpacerItem(20, 150, QSizePolicy.Minimum, QSizePolicy.Expanding)
         central_layout.addItem(top_spacer)
         
         # Create buttons with icons
@@ -98,6 +98,9 @@ class FreestylePage(QWidget):
 
         button_layout.setAlignment(Qt.AlignCenter)
         central_layout.addLayout(button_layout)
+
+        bottom_spacer = QSpacerItem(20, 150, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        central_layout.addItem(bottom_spacer)
 
         main_layout.addLayout(central_layout)
 
