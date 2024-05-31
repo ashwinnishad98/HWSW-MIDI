@@ -1,11 +1,12 @@
+import os
+import time
+
+import pygame
 import spidev
 from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
 from pages.tutorial_page import TutorialPage
 from PyQt5.QtCore import Qt, QThread, pyqtSignal
-import pygame
-import time
-import os
 from PyQt5.QtWidgets import (
     QHBoxLayout,
     QLabel,

@@ -1,9 +1,10 @@
 import os
+
+import pygame
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QPushButton, QWidget, QLabel
+from PyQt5.QtWidgets import QGridLayout, QHBoxLayout, QLabel, QPushButton, QWidget
 from utils.utils import add_musical_notes
-import pygame
 
 from .guitar_page import GuitarPage
 from .hihat_page import HiHatPage
@@ -64,23 +65,24 @@ class FreestylePage(QWidget):
             elif name == "Hi-hat":
                 button.clicked.connect(self.show_hihat_page)
 
+        button_layout = QHBoxLayout()
+
         # Back button
         back_button_freestyle = QPushButton("Back")
         back_button_freestyle.setFixedWidth(200)
         back_button_freestyle.clicked.connect(lambda: self.parent.setCurrentIndex(0))
-        self.grid_layout.addWidget(
-            back_button_freestyle, 2, 0, 1, 2
-        )  # Spanning the back button across the grid
-        print(self.session_folder)
-        
+        button_layout.addWidget(back_button_freestyle)
+
         # Check if there are files in the session folder and add the Songify button if files exist
         # if any(fname.endswith(".wav") for fname in os.listdir(self.session_folder)):
         songify_button = QPushButton("Songify!")
         songify_button.setFixedWidth(200)
         songify_button.clicked.connect(self.songify)
-        self.grid_layout.addWidget(
-            songify_button, 2, 1, 2, 2
-        )  # Position the songify button
+        self.grid_layout.addWidget(songify_button)
+        button_layout.addWidget(songify_button)
+
+        button_layout.setAlignment(Qt.AlignCenter)
+        self.grid_layout.addLayout(button_layout)
 
         freestyle_layout.addLayout(self.grid_layout)
         add_musical_notes(freestyle_layout)

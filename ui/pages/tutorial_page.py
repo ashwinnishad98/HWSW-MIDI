@@ -145,7 +145,7 @@ class TutorialPage(QWidget):
             layout.addWidget(label)
             button.setLayout(layout)
 
-            if lesson == "Rhythm 1":
+            if lesson == "Rhythm Game":
                 button.clicked.connect(self.start_rhythm_1)
 
             self.grid_layout.addWidget(button, *position)
