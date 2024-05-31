@@ -134,4 +134,5 @@ class FreestylePage(QWidget):
         if pygame.mixer.music.get_busy():
             QTimer.singleShot(100, self.check_song_playing)
         else:
+            self.message_label.clear()
             self.parent.setCurrentWidget(self)
