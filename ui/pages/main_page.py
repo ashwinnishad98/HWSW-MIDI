@@ -76,15 +76,6 @@ class MainWindow(QMainWindow):
         # Add the title label to the central layout
         self.title_label = QLabel()
         self.title_label.setTextFormat(Qt.RichText)
-        # self.title_label.setStyleSheet(
-        #     f"""
-        #     color: #fff37b;
-        #     font-size: 82px;
-        #     font-family: '{self.font_family}';
-        #     qproperty-alignment: AlignCenter;
-        #     padding-bottom: 100px;
-        #     """
-        # )
         self.title_label.setText(
             '<span style="color:#ff6fa4;">r</span>'
             '<span style="color:#00c7fe;">AI</span>'
@@ -140,11 +131,6 @@ class MainWindow(QMainWindow):
 
         self.init_pages()
 
-        # Initialize the potentiometer reader
-        # self.pot_reader = PotentiometerReader()
-        # self.pot_reader.potentiometer_value.connect(self.handle_potentiometer_input)
-        # self.pot_reader.start()
-
     def init_pages(self):
         self.tutorial_page = TutorialPage(self.stacked_widget, self.font_family)
         self.stacked_widget.addWidget(self.tutorial_page)
@@ -164,25 +150,25 @@ class MainWindow(QMainWindow):
     def show_song_library(self):
         self.stacked_widget.setCurrentWidget(self.song_library_page)
 
-    def handle_potentiometer_input(self, value):
-        # Normalize the potentiometer value to a range, e.g., 0-100
-        normalized_value = int((value / 1023.0) * 100)
+    # def handle_potentiometer_input(self, value):
+    #     # Normalize the potentiometer value to a range, e.g., 0-100
+    #     normalized_value = int((value / 1023.0) * 100)
 
-        # Determine which button to highlight based on the normalized value
-        if normalized_value < 33:
-            self.highlight_button(0)
-        elif normalized_value < 66:
-            self.highlight_button(1)
-        else:
-            self.highlight_button(2)
+    #     # Determine which button to highlight based on the normalized value
+    #     if normalized_value < 33:
+    #         self.highlight_button(0)
+    #     elif normalized_value < 66:
+    #         self.highlight_button(1)
+    #     else:
+    #         self.highlight_button(2)
 
-    def highlight_button(self, index):
-        # Reset all buttons to default style
-        for button in self.buttons:
-            button.setStyleSheet("")
+    # def highlight_button(self, index):
+    #     # Reset all buttons to default style
+    #     for button in self.buttons:
+    #         button.setStyleSheet("")
 
-        # Highlight the selected button
-        self.buttons[index].setStyleSheet("background-color: yellow;")
+    #     # Highlight the selected button
+    #     self.buttons[index].setStyleSheet("background-color: yellow;")
 
     def closeEvent(self, event):
         # self.pot_reader.stop()

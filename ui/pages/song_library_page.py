@@ -41,7 +41,7 @@ class SongLibraryPage(QWidget):
         
         spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
         central_layout.addItem(spacer)
-        button_layout = QVBoxLayout()
+        button_layout = QHBoxLayout()
         
         # Back button
         back_button_song = QPushButton("Back")
