@@ -102,6 +102,7 @@ class KickPage(QWidget):
         else:
             self.timer.stop()
             self.countdown_label.setText("Recording...")
+            self.kick_lesson.stop()
             self.kick_lesson = KickLesson(record=True)
             self.kick_lesson.recording_signal.connect(self.save_recording)
             self.kick_lesson.finished.connect(self.recording_finished)

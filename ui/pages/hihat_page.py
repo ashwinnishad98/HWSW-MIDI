@@ -103,6 +103,7 @@ class HiHatPage(QWidget):
         else:
             self.timer.stop()
             self.countdown_label.setText("Recording...")
+            self.hihat_lesson.stop()
             self.hihat_lesson = HiHatLesson(record=True)
             self.hihat_lesson.recording_signal.connect(self.save_recording)
             self.hihat_lesson.finished.connect(self.recording_finished)

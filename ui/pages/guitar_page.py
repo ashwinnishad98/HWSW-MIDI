@@ -102,6 +102,7 @@ class GuitarPage(QWidget):
         else:
             self.timer.stop()
             self.countdown_label.setText("Recording...")
+            self.guitar_lesson.stop()
             self.guitar_lesson = GuitarLesson(record=True)
             self.guitar_lesson.recording_signal.connect(self.save_recording)
             self.guitar_lesson.finished.connect(self.recording_finished)

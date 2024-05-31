@@ -99,6 +99,7 @@ class PianoPage(QWidget):
         else:
             self.timer.stop()
             self.countdown_label.setText("Recording...")
+            self.piano_lesson.stop()
             self.piano_lesson = PianoLesson(record=True)
             self.piano_lesson.recording_signal.connect(self.save_recording)
             self.piano_lesson.finished.connect(self.recording_finished)
@@ -119,3 +120,4 @@ class PianoPage(QWidget):
     def go_back_to_freestyle(self):
         self.piano_lesson.stop()  # Stop the piano lesson
         self.stacked_widget.setCurrentWidget(self.parent)
+

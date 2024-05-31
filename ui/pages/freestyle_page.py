@@ -48,10 +48,10 @@ class FreestylePage(QWidget):
             "Kick Drum": "./assets/kick.png",
             "Hi-hat": "./assets/hi-hat.png",
         }
-        
+
         top_spacer = QSpacerItem(20, 150, QSizePolicy.Minimum, QSizePolicy.Expanding)
         central_layout.addItem(top_spacer)
-        
+
         # Create buttons with icons
         for i, name in enumerate(option_names):
             button = QPushButton(name)
@@ -86,7 +86,7 @@ class FreestylePage(QWidget):
         # Back button
         back_button_freestyle = QPushButton("Back")
         back_button_freestyle.setFixedWidth(200)
-        back_button_freestyle.clicked.connect(lambda: self.parent.setCurrentIndex(0))
+        back_button_freestyle.clicked.connect(self.go_back)
         button_layout.addWidget(back_button_freestyle)
 
         # Check if there are files in the session folder and add the Songify button if files exist
@@ -108,24 +108,39 @@ class FreestylePage(QWidget):
         self.setLayout(main_layout)
 
     def show_piano_page(self):
+        self.stop_current_lesson()
         self.piano_page = PianoPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.piano_page)
         self.parent.setCurrentWidget(self.piano_page)
 
     def show_guitar_page(self):
+        self.stop_current_lesson()
         self.guitar_page = GuitarPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.guitar_page)
         self.parent.setCurrentWidget(self.guitar_page)
 
     def show_kick_page(self):
+        self.stop_current_lesson()
         self.kick_page = KickPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.kick_page)
         self.parent.setCurrentWidget(self.kick_page)
 
     def show_hihat_page(self):
+        self.stop_current_lesson()
         self.hihat_page = HiHatPage(self, self.parent, self.session_folder)
         self.parent.addWidget(self.hihat_page)
         self.parent.setCurrentWidget(self.hihat_page)
+
+    def stop_current_lesson(self):
+        if hasattr(self, "piano_page") and self.piano_page.piano_lesson.running:
+            self.piano_page.piano_lesson.stop()
+        if hasattr(self, "guitar_page") and self.guitar_page.guitar_lesson.running:
+            self.guitar_page.guitar_lesson.stop()
+        if hasattr(self, "kick_page") and self.kick_page.kick_lesson.running:
+            self.kick_page.kick_lesson.stop()
+        if hasattr(self, "hihat_page") and self.hihat_page.hihat_lesson.running:
+            self.hihat_page.hihat_lesson.stop()
+        pygame.mixer.stop()
 
     def songify(self):
         self.songify_thread = Songify(self.session_folder)
@@ -156,3 +171,7 @@ class FreestylePage(QWidget):
         else:
             self.message_label.clear()
             self.parent.setCurrentWidget(self)
+
+    def go_back(self):
+        self.stop_current_lesson()
+        self.parent.setCurrentIndex(0)
