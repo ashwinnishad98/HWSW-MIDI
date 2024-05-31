@@ -6,6 +6,8 @@ from PyQt5.QtWidgets import (
     QPushButton,
     QVBoxLayout,
     QWidget,
+    QSpacerItem,
+    QSizePolicy,
 )
 
 from utils.utils import add_musical_notes
@@ -37,7 +39,8 @@ class SongLibraryPage(QWidget):
             
         central_layout.addLayout(grid_layout)
         
-
+        spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        central_layout.addItem(spacer)
         button_layout = QHBoxLayout()
         
         # Back button
