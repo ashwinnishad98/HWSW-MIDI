@@ -3,21 +3,14 @@ import time
 
 import pygame
 import spidev
+from PyQt5.QtCore import Qt, QThread, pyqtSignal
+from PyQt5.QtWidgets import (QHBoxLayout, QLabel, QMainWindow, QPushButton,
+                             QSizePolicy, QSpacerItem, QStackedWidget,
+                             QVBoxLayout, QWidget)
+
 from pages.freestyle_page import FreestylePage
 from pages.song_library_page import SongLibraryPage
 from pages.tutorial_page import TutorialPage
-from PyQt5.QtCore import Qt, QThread, pyqtSignal
-from PyQt5.QtWidgets import (
-    QHBoxLayout,
-    QLabel,
-    QMainWindow,
-    QPushButton,
-    QSizePolicy,
-    QSpacerItem,
-    QStackedWidget,
-    QVBoxLayout,
-    QWidget,
-)
 from utils.utils import add_musical_notes
 
 # Setup SPI for MCP3008

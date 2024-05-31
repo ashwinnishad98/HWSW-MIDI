@@ -3,15 +3,9 @@ import os
 import pygame
 from PyQt5.QtCore import QSize, Qt, QTimer
 from PyQt5.QtGui import QIcon, QPixmap
-from PyQt5.QtWidgets import (
-    QGridLayout,
-    QHBoxLayout,
-    QPushButton,
-    QWidget,
-    QVBoxLayout,
-    QSpacerItem,
-    QSizePolicy,
-)
+from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QPushButton,
+                             QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
+
 from utils.utils import add_musical_notes
 
 from .guitar_page import GuitarPage
@@ -152,7 +146,7 @@ class FreestylePage(QWidget):
         self.play_final_song()
 
     def show_message_page(self, message):
-        self.message_page = SongifyPage(self.parent, message)
+        self.message_page = SongifyPage(self, message, self.session_folder, self.parent)
         self.parent.addWidget(self.message_page)
         self.parent.setCurrentWidget(self.message_page)
 

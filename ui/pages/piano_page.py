@@ -1,15 +1,7 @@
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtGui import QPixmap
-from PyQt5.QtWidgets import (
-    QGridLayout,
-    QHBoxLayout,
-    QLabel,
-    QPushButton,
-    QSizePolicy,
-    QSpacerItem,
-    QVBoxLayout,
-    QWidget,
-)
+from PyQt5.QtWidgets import (QGridLayout, QHBoxLayout, QLabel, QPushButton,
+                             QSizePolicy, QSpacerItem, QVBoxLayout, QWidget)
 
 from sensor.play_piano import PianoLesson
 from sensor.save_recording_thread import SaveRecordingThread
@@ -120,4 +112,3 @@ class PianoPage(QWidget):
     def go_back_to_freestyle(self):
         self.piano_lesson.stop()  # Stop the piano lesson
         self.stacked_widget.setCurrentWidget(self.parent)
-
