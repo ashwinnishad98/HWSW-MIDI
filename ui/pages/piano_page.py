@@ -22,8 +22,8 @@ class PianoPage(QWidget):
         # Add the grid layout to the piano layout
         self.piano_layout.addLayout(self.grid_layout)
 
-        # top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # self.piano_layout.addItem(top_spacer)
+        top_spacer = QSpacerItem(20, 80, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.piano_layout.addItem(top_spacer)
 
         # Display the piano image
         piano_label = QLabel()
@@ -33,8 +33,8 @@ class PianoPage(QWidget):
         self.piano_layout.addWidget(piano_label, alignment=Qt.AlignCenter)
 
         # Add a spacer item to push the button to the bottom
-        # spacer = QSpacerItem(20, 35, QSizePolicy.Minimum, QSizePolicy.Expanding)
-        # self.piano_layout.addItem(spacer)
+        spacer = QSpacerItem(20, 20, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.piano_layout.addItem(spacer)
 
         # Button layout for Back and Record buttons
         button_layout = QHBoxLayout()
@@ -53,6 +53,9 @@ class PianoPage(QWidget):
 
         button_layout.setAlignment(Qt.AlignCenter)
         self.piano_layout.addLayout(button_layout)
+        
+        bottom_spacer = QSpacerItem(20, 40, QSizePolicy.Minimum, QSizePolicy.Expanding)
+        self.piano_layout.addItem(bottom_spacer)
 
         # Countdown labels
         self.countdown_label = QLabel("")
@@ -106,7 +109,7 @@ class PianoPage(QWidget):
         QTimer.singleShot(2000, self.reset_ui)  # Show message for 2 seconds
 
     def reset_ui(self):
-        self.countdown_label.deleteLater()
+        self.countdown_label.clear()
         self.record_button.setDisabled(False)
 
     def go_back_to_freestyle(self):
