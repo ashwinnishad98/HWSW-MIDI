@@ -9,7 +9,7 @@ from PyQt5.QtWidgets import (QHBoxLayout, QLabel, QPushButton, QVBoxLayout,
 
 # Initialize Firebase
 cred = credentials.Certificate("ui/firebasepvt.json")
-firebase_admin.initialize_app(cred, {"storageBucket": "hwsw2-e6856.appspot.com"})
+firebase_admin.initialize_app(cred, {"storageBucket": "gs://hwsw2-e6856.appspot.com"})
 
 
 class SongifyPage(QWidget):
@@ -61,7 +61,12 @@ class SongifyPage(QWidget):
         QTimer.singleShot(3000, self.go_back)
 
     def upload_to_firebase(self, file_path):
+        # Generate a unique filename with a timestamp
+        timestamp = int(time.time())
+        unique_filename = f"final_{timestamp}.wav"
+
+        # Upload file to Firebase Storage
         bucket = storage.bucket()
-        blob = bucket.blob(os.path.basename(file_path))
+        blob = bucket.blob(unique_filename)
         blob.upload_from_filename(file_path)
-        print(f"File {file_path} uploaded to Firebase.")
+        print(f"File {file_path} uploaded to Firebase Storage as {unique_filename}.")
