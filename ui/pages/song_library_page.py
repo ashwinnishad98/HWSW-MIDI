@@ -41,9 +41,10 @@ class SongLibraryPage(QWidget):
         button_layout.addWidget(back_button_song)
         
         button_layout.setAlignment(Qt.AlignCenter)
-        song_lib_layout.addLayout(button_layout)
+        
 
         song_lib_layout.addLayout(grid_layout)
+        song_lib_layout.addLayout(button_layout)
         add_musical_notes(song_lib_layout)
 
         self.setLayout(song_lib_layout)
